@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>歡喜學九九合數 (Huân-hí o̍h kiú-kiú-ha̍p-sò͘)</title>
+    <!-- Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Inter:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fontsource/iansui@5.0.8/index.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #ff7675;
+            --primary-hover: #ff5252;
+            --secondary: #00cec9;
+            --secondary-hover: #00b894;
+            --dark: #2d3436;
+            --light: #f7f9fa;
+            --accent: #ffeaa7;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(255, 255, 255, 0.5);
+        }
+
+        body {
+            font-family: 'Fredoka', 'Iansui', 'Noto Sans', 'Inter', 'Comic Sans MS', 'Chalkboard SE', 'Microsoft JhengHei', sans-serif;
+            background: linear-gradient(135deg, #e0f2fe 0%, #fef08a 100%);
+            min-height: 100vh;
+            color: var(--dark);
+            margin: 0;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 32px;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border: 4px solid rgba(255, 255, 255, 0.7);
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        h1 {
+            color: var(--primary);
+            margin: 0 0 10px 0;
+            font-size: 2rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-shadow: 2px 2px 0 rgba(255,255,255,0.8);
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 15px;
+            background: rgba(223, 230, 233, 0.7);
+            border-radius: 50px;
+            padding: 5px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 5px;
+            border: none;
+            background: none;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 50px;
+            color: #636e72;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 2px;
+            line-height: 1.2;
+        }
+
+        .tab-btn.active {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 8px 15px rgba(255, 118, 117, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .settings-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+            padding: 10px 18px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+        }
+
+        .engine-badge {
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 5px 12px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .badge-real {
+            background: #27ae60;
+            color: white;
+        }
+
+        .badge-google {
+            background: #ffeaa7;
+            color: #d63031;
+        }
+
+        .badge-local {
+            background: #e17055;
+            color: white;
+        }
+
+        .speed-control {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #636e72;
+        }
+
+        .speed-control input[type="range"] {
+            width: 80px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            height: 6px;
+            border-radius: 3px;
+        }
+
+        .quiz-box {
+            background: rgba(255, 234, 167, 0.15);
+            border-radius: 24px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 3px dashed var(--secondary);
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .equation {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            user-select: none;
+        }
+
+        .clickable-num {
+            cursor: pointer;
+            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            padding: 0 10px;
+            border-radius: 12px;
+            color: var(--primary);
+            display: inline-block;
+        }
+
+        .clickable-num:hover {
+            background: rgba(255, 118, 117, 0.15);
+            transform: scale(1.15) rotate(2deg);
+        }
+
+        .clickable-num:active {
+            transform: scale(0.95);
+        }
+
+        .clickable-num.question-mark {
+            color: #b2bec3;
+            cursor: default;
+            animation: pulse 1.5s infinite;
+        }
+
+        .clickable-num.question-mark:hover {
+            background: none;
+            transform: none;
+        }
+
+        .clickable-num.revealed {
+            color: #0984e3;
+            animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+
+        .taigi-read {
+            font-size: 1.25rem;
+            color: #d63031;
+            font-weight: 800;
+            min-height: 1.8rem;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 6px 16px;
+            background: rgba(255, 118, 117, 0.08);
+            border-radius: 50px;
+            transition: all 0.2s;
+            margin-bottom: 10px;
+            font-family: 'Fredoka', 'Iansui', 'Noto Sans', 'Inter', sans-serif;
+        }
+
+        .taigi-read:hover {
+            background: rgba(255, 118, 117, 0.15);
+            transform: scale(1.05);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.95rem;
+            color: #7f8c8d;
+            font-weight: 700;
+            padding: 0 5px 10px 5px;
+            border-bottom: 1px dashed rgba(0,0,0,0.05);
+            margin-bottom: 10px;
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-option {
+            background-color: #a8e6cf;
+            color: #2d3436;
+            border: none;
+            border-radius: 20px;
+            padding: 15px;
+            font-size: 2rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 8px 0 #7cb39b;
+            transition: all 0.1s ease;
+            position: relative;
+            outline: none;
+        }
+
+        .btn-option:hover {
+            background-color: #bbf2de;
+        }
+
+        .btn-option:active {
+            transform: translateY(6px);
+            box-shadow: 0 2px 0 #7cb39b;
+        }
+
+        .feedback {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-top: 15px;
+            height: 2.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .correct { color: #2ecc71; text-shadow: 1px 1px 0 rgba(255,255,255,0.8); }
+        .wrong { color: #e74c3c; text-shadow: 1px 1px 0 rgba(255,255,255,0.8); }
+
+        .result-box {
+            background: rgba(241, 242, 246, 0.8);
+            border-radius: 24px;
+            padding: 25px;
+            margin-top: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+        }
+
+        .restart-btn {
+            background-color: var(--secondary);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            border-radius: 50px;
+            cursor: pointer;
+            box-shadow: 0 6px 0 #00a8a8;
+            margin-top: 20px;
+            transition: all 0.1s;
+            line-height: 1.3;
+        }
+
+        .restart-btn:active {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0 #00a8a8;
+        }
+
+        .num-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .btn-num {
+            background-color: var(--accent);
+            border: none;
+            border-radius: 16px;
+            padding: 10px 5px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 5px 0 #e1b12c;
+            transition: all 0.1s;
+        }
+
+        .btn-num:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #e1b12c;
+        }
+
+        .btn-num.active {
+            background-color: var(--secondary);
+            color: white;
+            box-shadow: 0 5px 0 #00a8a8;
+        }
+
+        .btn-num.active:active {
+            transform: translateY(3px);
+            box-shadow: 0 2px 0 #00a8a8;
+        }
+
+        .sticker-box {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+
+        .sticker {
+            font-size: 2.2rem;
+            background: #fff;
+            padding: 6px 12px;
+            border-radius: 50%;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            display: inline-block;
+            animation: stickerPop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+        }
+
+        @keyframes stickerPop {
+            0% { transform: scale(0); rotate: -20deg; }
+            100% { transform: scale(1); rotate: 0deg; }
+        }
+
+        /* Pure CSS Confetti Particle */
+        .confetti-particle {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            z-index: 100;
+            pointer-events: none;
+            animation: floatUp 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(var(--scale)) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-250px) translateX(var(--x)) scale(0) rotate(var(--rot));
+                opacity: 0;
+            }
+        }
+
+        /* Shake and bounce animations */
+        .shake {
+            animation: shakeAnim 0.5s ease-in-out;
+        }
+        @keyframes shakeAnim {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+
+        .bounce-effect {
+            animation: bounceAnim 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        @keyframes bounceAnim {
+            0%, 100% { transform: scale(1); }
+            30% { transform: scale(1.08); }
+            50% { transform: scale(0.95); }
+            80% { transform: scale(1.03); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>🧮 歡喜學九九合數 <span style="font-size: 1rem; font-weight: normal; color: #7f8c8d;">(Huân-hí o̍h kiú-kiú-ha̍p-sò͘)</span></h1>
+    
+    <div class="tabs">
+        <button class="tab-btn active" onclick="switchMode('practice')"><i class="fa-solid fa-gamepad"></i> 歡喜練習<br><span style="font-size:0.75rem; font-weight:600; opacity:0.85;">Huân-hí Liān-sip</span></button>
+        <button class="tab-btn" onclick="switchMode('challenge')"><i class="fa-solid fa-trophy"></i> 實戰挑戰<br><span style="font-size:0.75rem; font-weight:600; opacity:0.85;">Si̍t-tsian Thiáu-tsian</span></button>
+    </div>
+
+    <!-- settings panel -->
+    <div class="settings-bar">
+        <div class="engine-badge-container">
+            <span id="speech-engine-badge" class="engine-badge badge-google">🔊 雲端台語 (Google)</span>
+        </div>
+        <div class="speed-control">
+            <label for="speed-slider">語速 (Speed): <span id="speed-val">0.8x</span></label>
+            <input type="range" id="speed-slider" min="0.6" max="1.2" step="0.1" value="0.8">
+        </div>
+    </div>
+
+    <div class="quiz-box">
+        <div class="quiz-header">
+            <span id="quiz-progress" style="visibility:hidden;">第 1 / 10 題</span>
+            <span id="quiz-timer" style="visibility:hidden; color:#e74c3c;"><i class="fa-solid fa-hourglass-half"></i> 剩餘: 30秒</span>
+        </div>
+        <!-- 點擊拼音可以重新發音 -->
+        <div class="taigi-read" id="taigi-pinyin" onclick="speakCurrent()">請選一个數字開始唷！ 🔊</div>
+        <div class="equation" id="quiz-text">? × ? = ?</div>
+    </div>
+
+    <div id="quiz-game-interface">
+        <div class="options-grid" id="options">
+            <button class="btn-option" onclick="checkAnswer(this)">?</button>
+            <button class="btn-option" onclick="checkAnswer(this)">?</button>
+            <button class="btn-option" onclick="checkAnswer(this)">?</button>
+            <button class="btn-option" onclick="checkAnswer(this)">?</button>
+        </div>
+        <div class="feedback" id="feedback-text"></div>
+    </div>
+
+    <!-- 1. 歡喜練習模式 -->
+    <div id="practice-panel" class="mode-panel active">
+        <div style="font-weight: bold; color: #555; margin-top:10px;">想欲練佗一个？ (siōnn-beh liān tó-tsit-ê?)</div>
+        <div class="num-selector" id="selector"></div>
+        <div style="color: #7f8c8d; font-size: 0.95rem; font-weight: bold;" id="practice-score">累積著 (Lúi-tsik tio̍h)：0 題</div>
+    </div>
+
+    <div id="challenge-panel" class="mode-panel">
+        <div id="result-area" class="result-box" style="display: none;">
+            <h2>💯 驗收結果 (Giām-siu Kiat-kó)</h2>
+            <div id="result-score" style="font-size: 1.6rem; font-weight: bold; color: var(--primary); margin-bottom: 10px;"></div>
+            <div id="result-stars" style="font-size: 2rem; color: #f1c40f; margin-bottom: 10px;">⭐⭐⭐</div>
+            <div id="high-score" style="color: #27ae60; font-weight: bold; margin: 5px 0; font-size: 1.1rem;"></div>
+            <div style="margin-top:15px; font-weight:bold; color:#555; text-align: left;">🎁 貼紙收集冊 (Thiap-tsí Siu-tsip-tseh)：</div>
+            <div class="sticker-box" id="stickers-container"></div>
+            <button class="restart-btn" onclick="startChallenge()"><i class="fa-solid fa-rotate-left"></i> 閣挑戰一次<br><span style="font-size:0.8rem; font-weight:500; opacity:0.85;">Koh thiáu-tsian tsi̍t-tshù</span></button>
+        </div>
+    </div>
+
+</div>
+
+<script>
+    // 台語漢字口訣與中文對照，方便語音合成讀取
+    const taigiSpeakNums = { 1: '一', 2: '二', 3: '三', 4: '四', 5: '五', 6: '六', 7: '七', 8: '八', 9: '九' };
+    const taigiSpeakAns = {
+        1: '一', 2: '二', 3: '三', 4: '四', 5: '五', 6: '六', 7: '七', 8: '八', 9: '九', 10: '十',
+        12: '十二', 14: '十四', 15: '十五', 16: '十六', 18: '十八', 20: '二十', 21: '二十一',
+        24: '二十四', 25: '二十五', 27: '二十七', 28: '二十八', 30: '三十', 32: '三十二',
+        35: '三十五', 36: '三十六', 40: '四十', 42: '四十二', 45: '四十五', 48: '四十八',
+        49: '四十九', 54: '五十四', 56: '五十六', 63: '六十三', 64: '六十四', 72: '七十二',
+        81: '八十一'
+    };
+
+    const taigiPinyinNums = { 1: 'it', 2: 'jī', 3: 'sann', 4: 'sì', 5: 'gōo', 6: 'la̍k', 7: 'tshit', 8: 'peh', 9: 'káu' };
+    const taigiPinyinAns = {
+        1: 'it', 2: 'jī', 3: 'sann', 4: 'sì', 5: 'gōo', 6: 'la̍k', 7: 'tshit', 8: 'peh', 9: 'káu', 10: 'tsa̍p',
+        12: 'tsa̍p-jī', 14: 'tsa̍p-sì', 15: 'tsa̍p-gōo', 16: 'tsa̍p-la̍k', 18: 'tsa̍p-peh', 20: 'jī-tsa̍p',
+        21: 'jī-tsa̍p-it', 24: 'jī-tsa̍p-sì', 25: 'jī-tsa̍p-gōo', 27: 'jī-tsa̍p-tshit', 28: 'jī-tsa̍p-peh',
+        30: 'sann-tsa̍p', 32: 'sann-tsa̍p-jī', 35: 'sann-tsa̍p-gōo', 36: 'sann-tsa̍p-la̍k', 40: 'sì-tsa̍p',
+        42: 'sì-tsa̍p-jī', 45: 'sì-tsa̍p-gōo', 48: 'sì-tsa̍p-peh', 49: 'sì-tsa̍p-káu', 54: 'gōo-tsa̍p-sì',
+        56: 'gōo-tsa̍p-la̍k', 63: 'la̍k-tsa̍p-sann', 64: 'la̍k-tsa̍p-sì', 72: 'tshit-tsa̍p-jī', 81: 'peh-tsa̍p-it'
+    };
+
+    const rewardStickers = ['🦁', '🐯', '🐼', '🦖', '🚀', '🍓', '🍉', '🍦', '🍩', '🚗'];
+
+    let currentMode = 'practice';
+    let currentMultiplicand = 1; 
+    let currentMultiplier = 1;   
+    let correctAnswer = 0;
+    
+    let practiceScore = 0;
+    let challengeScore = 0;
+    let challengeRound = 0; 
+    let challengePool = []; 
+    
+    let timerInterval;
+    let timeLeft = 30;
+
+    // --- 三模台語語音引擎邏輯 ---
+    let activeQueueAudio = null;
+    let activeAudio = null;
+    let queueCancelToken = 0;
+    let isAudioUnlocked = false;
+    let hasUserInteracted = false;
+
+    // 取得 1-99 數字的 MoeDict 音訊拼接陣列
+    function getNumberSegments(num) {
+        const numberAudioMap = {
+            1: "00002",
+            2: "00051",
+            3: "00170",
+            4: "01418",
+            5: "00574",
+            6: "00587",
+            7: "00047",
+            8: "00056",
+            9: "00048",
+            10: "00061"
+        };
+        if (num <= 10) {
+            return [numberAudioMap[num]];
+        }
+        if (num < 20) {
+            return [numberAudioMap[10], numberAudioMap[num % 10]];
+        }
+        const tens = Math.floor(num / 10);
+        const units = num % 10;
+        const segments = [numberAudioMap[tens], numberAudioMap[10]];
+        if (units > 0) {
+            segments.push(numberAudioMap[units]);
+        }
+        return segments;
+    }
+
+    // 國語同音字對照演算法 (用於本地離線 SpeechSynthesis 朗讀)
+    function translateToPhoneticTaigi(text) {
+        if (text.includes("著矣") || text.includes("著啊")) return "丟啊";
+        if (text.includes("毋著") || text.includes("無對")) return "嗯丟喔";
+        
+        let result = text;
+        const digitMap = {
+            "二": "吉",
+            "三": "衫",
+            "四": "四",
+            "五": "喔",
+            "六": "辣",
+            "七": "七",
+            "八": "北",
+            "九": "狗",
+            "十": "雜",
+            "得": "滴",
+            "一": "伊"
+        };
+        
+        // 替換雙位數的十位數
+        for (let char of ["二十", "三十", "四十", "五十", "六十", "七十", "八十", "九十"]) {
+            const tens = char[0];
+            result = result.replace(new RegExp(char, 'g'), digitMap[tens] + "雜");
+        }
+        
+        for (let key in digitMap) {
+            result = result.replace(new RegExp(key, 'g'), digitMap[key]);
+        }
+        return result;
+    }
+
+    // 設定 Badge 顯示目前的語音引擎
+    function setEngineBadgeStatus(mode) {
+        const badge = document.getElementById('speech-engine-badge');
+        if (!badge) return;
+        if (mode === 'real') {
+            badge.innerText = "🔊 實體台語 (教育部)";
+            badge.className = "engine-badge badge-real";
+        } else if (mode === 'google') {
+            badge.innerText = "🔊 雲端台語 (Google)";
+            badge.className = "engine-badge badge-google";
+        } else {
+            badge.innerText = "🔊 本地合成 (擬真)";
+            badge.className = "engine-badge badge-local";
+        }
+    }
+
+    // 播放台語語音主入口 (優先序：雲端語音 sentence -> 教育部音檔拼接 -> 本地合成)
+    function playTaigiTTS(phraseText, segmentIds = null) {
+        queueCancelToken++;
+        const token = queueCancelToken;
+
+        // 停止之前的播放
+        if (activeQueueAudio) { activeQueueAudio.pause(); activeQueueAudio = null; }
+        if (activeAudio) { activeAudio.pause(); activeAudio = null; }
+        if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); }
+
+        const currentSpeed = parseFloat(document.getElementById('speed-slider').value) || 0.85;
+
+        // 若是單一數字發音 (segmentIds 長度為 1)，優先採用 MoeDict 音檔直接播放以達流暢無縫
+        const isSingleWord = segmentIds && segmentIds.length === 1;
+
+        if (isSingleWord) {
+            playStitchOptionA(segmentIds, phraseText, token, currentSpeed);
+        } else {
+            // 對於完整公式朗讀，優先採用 Option B (Google TTS 閩南語) 以確保整句自然流利不中斷
+            setEngineBadgeStatus('google');
+            const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=nan&client=gtx&q=${encodeURIComponent(phraseText)}`;
+
+            activeAudio = new Audio();
+            activeAudio.referrerPolicy = "no-referrer";
+            activeAudio.src = url;
+            activeAudio.defaultPlaybackRate = currentSpeed;
+            activeAudio.playbackRate = currentSpeed;
+
+            activeAudio.play().then(() => {
+                setEngineBadgeStatus('google');
+            }).catch(err => {
+                console.warn("Google TTS failed. Transitioning to Option A (Stitching)...", err);
+                if (token !== queueCancelToken) return;
+                
+                // 雲端失敗，切換至 Option A (MoeDict 音檔拼接)
+                if (segmentIds && segmentIds.length > 0) {
+                    playStitchOptionA(segmentIds, phraseText, token, currentSpeed);
+                } else {
+                    // 若無拼接片段，直接切換到 Option C
+                    playOfflineVoiceEngine(phraseText);
+                }
+            });
+        }
+    }
+
+    // Option A: 實體教育部音訊拼接發音
+    function playStitchOptionA(segmentIds, phraseText, token, currentSpeed) {
+        setEngineBadgeStatus('real');
+        let index = 0;
+
+        function playNextSegment() {
+            if (token !== queueCancelToken) return;
+            if (index >= segmentIds.length) return;
+
+            const id = segmentIds[index];
+            const localUrl = `audio/${id}.ogg`;
+            const cdnUrl = `https://1763c5ee9859e0316ed6-db85b55a6a3fbe33f09b9245992383bd.ssl.cf1.rackcdn.com/${id}.ogg`;
+
+            let audio = new Audio();
+            activeQueueAudio = audio;
+            audio.src = localUrl;
+            audio.defaultPlaybackRate = currentSpeed;
+            audio.playbackRate = currentSpeed;
+
+            audio.onended = () => {
+                index++;
+                playNextSegment();
+            };
+
+            audio.onerror = () => {
+                console.warn(`Local audio failed for ${id}, trying MoeDict CDN...`);
+                if (token !== queueCancelToken) return;
+
+                let cdnAudio = new Audio();
+                activeQueueAudio = cdnAudio;
+                cdnAudio.src = cdnUrl;
+                cdnAudio.defaultPlaybackRate = currentSpeed;
+                cdnAudio.playbackRate = currentSpeed;
+                
+                cdnAudio.onended = () => {
+                    index++;
+                    playNextSegment();
+                };
+                cdnAudio.onerror = () => {
+                    console.error(`CDN audio failed for ${id}. Transitioning to Option C (Local Synthesis).`);
+                    if (token !== queueCancelToken) return;
+                    playOfflineVoiceEngine(phraseText);
+                };
+                cdnAudio.play().catch(() => {
+                    cdnAudio.onerror();
+                });
+            };
+
+            audio.play().catch(() => {
+                audio.onerror();
+            });
+        }
+        playNextSegment();
+    }
+
+    // Option C: 本地離線同音字備援語音合成
+    function playOfflineVoiceEngine(phraseText) {
+        if (!('speechSynthesis' in window)) {
+            console.error("Browser does not support speechSynthesis.");
+            return;
+        }
+        window.speechSynthesis.cancel();
+        setEngineBadgeStatus('local');
+
+        // 生成擬真台語國語同音字
+        const phoneticText = translateToPhoneticTaigi(phraseText);
+        console.log("Synthesizing offline homophones:", phraseText, "->", phoneticText);
+
+        const utterance = new SpeechSynthesisUtterance(phoneticText);
+        utterance.lang = "zh-TW";
+        const currentSpeed = parseFloat(document.getElementById('speed-slider').value) || 0.85;
+        utterance.rate = currentSpeed;
+        utterance.pitch = 1.0;
+
+        const voices = window.speechSynthesis.getVoices();
+        const twVoice = voices.find(v => v.lang.includes("zh-TW"));
+        if (twVoice) {
+            utterance.voice = twVoice;
+        }
+
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // iOS/網頁音訊管道解鎖
+    function unlockAudioPipeline() {
+        if (isAudioUnlocked) return;
+        try {
+            const dummy = new Audio();
+            dummy.src = "data:audio/wav;base64,UklGRigAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQQAAAAAAA==";
+            dummy.play().then(() => {
+                isAudioUnlocked = true;
+            }).catch(() => {});
+        } catch (e) {}
+    }
+
+    // 單獨點擊被乘數/乘數/乘積發音
+    function speakNumPart(num) {
+        if (!num) return;
+        const numText = taigiSpeakAns[num] || taigiSpeakNums[num] || num.toString();
+        const segments = getNumberSegments(num);
+        playTaigiTTS(numText, segments);
+    }
+
+    // 播放當前練習算式發音
+    function speakCurrent() {
+        if(currentMode === 'practice') {
+            const fullFormulaText = `${taigiSpeakNums[currentMultiplicand]}${taigiSpeakNums[currentMultiplier]}得${taigiSpeakAns[correctAnswer] || correctAnswer}`;
+            const segments = getNumberSegments(currentMultiplicand)
+                .concat(getNumberSegments(currentMultiplier))
+                .concat(getNumberSegments(correctAnswer));
+            playTaigiTTS(fullFormulaText, segments);
+        } else if(currentMode === 'challenge') {
+            // 在挑戰模式中，只朗讀題目，不提示答案
+            const questionText = `${taigiSpeakNums[currentMultiplicand]}${taigiSpeakNums[currentMultiplier]}`;
+            const segments = getNumberSegments(currentMultiplicand)
+                .concat(getNumberSegments(currentMultiplier));
+            playTaigiTTS(questionText, segments);
+        }
+    }
+
+    // 更新算式顯示
+    function updateQuizDisplay(showAnswer) {
+        const quizTextEl = document.getElementById('quiz-text');
+        const multiplicandText = currentMultiplicand;
+        const multiplierText = currentMultiplier;
+        const ansText = showAnswer ? correctAnswer : '?';
+        
+        quizTextEl.innerHTML = `
+            <span class="clickable-num" onclick="speakNumPart(${currentMultiplicand})">${multiplicandText}</span>
+            <span class="symbol" style="color:#7f8c8d; font-size:2.8rem; margin:0 5px;">×</span>
+            <span class="clickable-num" onclick="speakNumPart(${currentMultiplier})">${multiplierText}</span>
+            <span class="symbol" style="color:#7f8c8d; font-size:2.8rem; margin:0 5px;">=</span>
+            <span class="clickable-num ${showAnswer ? 'revealed' : 'question-mark'}" onclick="${showAnswer ? `speakNumPart(${correctAnswer})` : ''}">${ansText}</span>
+        `;
+    }
+
+    // 粒子碎片灑紙花動畫
+    function triggerConfetti() {
+        const container = document.querySelector('.container');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'confetti-particle';
+            particle.style.left = `${Math.random() * 100}%`;
+            particle.style.bottom = '10%';
+            particle.style.backgroundColor = `hsl(${Math.random() * 360}, 90%, 65%)`;
+            particle.style.setProperty('--x', `${(Math.random() - 0.5) * 250}px`);
+            particle.style.setProperty('--rot', `${Math.random() * 360}deg`);
+            particle.style.setProperty('--scale', `${Math.random() * 0.6 + 0.6}`);
+            container.appendChild(particle);
+            setTimeout(() => particle.remove(), 1200);
+        }
+    }
+
+    // 初始化被乘數按鈕 (1 的段到 9 的段)
+    const selectorDiv = document.getElementById('selector');
+    for (let i = 1; i <= 9; i++) {
+        const btn = document.createElement('button');
+        btn.className = `btn-num ${i === 1 ? 'active' : ''}`;
+        btn.style.lineHeight = '1.3';
+        btn.innerHTML = `${i} 的段<br><span style="font-size:0.75rem; font-weight:600; display:block; opacity:0.9;">${taigiPinyinNums[i]} ê tōan</span>`;
+        btn.onclick = function() {
+            hasUserInteracted = true;
+            document.querySelectorAll('.btn-num').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentMultiplicand = i;
+            if(currentMode === 'practice') generateQuiz();
+        };
+        selectorDiv.appendChild(btn);
+    }
+
+    // 語速控制滑桿監聽
+    const speedSlider = document.getElementById('speed-slider');
+    const speedVal = document.getElementById('speed-val');
+    speedSlider.addEventListener('input', () => {
+        speedVal.innerText = `${parseFloat(speedSlider.value).toFixed(1)}x`;
+    });
+
+    // 點擊解鎖音訊並啟動點擊監聽
+    window.addEventListener('pointerdown', () => {
+        hasUserInteracted = true;
+        unlockAudioPipeline();
+    }, { once: true });
+
+    // 模式切換
+    function switchMode(mode) {
+        currentMode = mode;
+        clearInterval(timerInterval);
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.mode-panel').forEach(panel => panel.classList.remove('active'));
+        document.getElementById('feedback-text').innerText = '';
+        
+        if (mode === 'practice') {
+            document.querySelector('.tab-btn:nth-child(1)').classList.add('active');
+            document.getElementById('practice-panel').classList.add('active');
+            document.getElementById('quiz-game-interface').style.display = 'block';
+            document.getElementById('quiz-progress').style.visibility = 'hidden';
+            document.getElementById('quiz-timer').style.visibility = 'hidden';
+            generateQuiz();
+        } else {
+            document.querySelector('.tab-btn:nth-child(2)').classList.add('active');
+            document.getElementById('challenge-panel').classList.add('active');
+            startChallenge();
+        }
+    }
+
+    // 挑戰模式
+    function startChallenge() {
+        challengeScore = 0;
+        challengeRound = 0;
+        timeLeft = 45; // 實戰 45 秒
+        document.getElementById('quiz-game-interface').style.display = 'block';
+        document.getElementById('result-area').style.display = 'none';
+        
+        document.getElementById('quiz-progress').style.visibility = 'visible';
+        document.getElementById('quiz-timer').style.visibility = 'visible';
+        document.getElementById('quiz-timer').innerHTML = `<i class="fa-solid fa-hourglass-half animate-pulse"></i> 剩餘: ${timeLeft}秒`;
+
+        let tempPool = [];
+        for (let i = 1; i <= 9; i++) {
+            for (let j = 1; j <= 9; j++) tempPool.push({a: i, b: j});
+        }
+        tempPool.sort(() => Math.random() - 0.5);
+        challengePool = tempPool.slice(0, 10);
+
+        // 啟動倒計時
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+            timeLeft--;
+            document.getElementById('quiz-timer').innerHTML = `<i class="fa-solid fa-hourglass-half"></i> 剩餘: ${timeLeft}秒`;
+            if(timeLeft <= 0) {
+                clearInterval(timerInterval);
+                showChallengeResult(true); 
+            }
+        }, 1000);
+
+        nextChallengeQuestion();
+    }
+
+    function nextChallengeQuestion() {
+        challengeRound++;
+        document.getElementById('quiz-progress').innerText = `第 ${challengeRound} / 10 題`;
+        
+        let currentJob = challengePool[challengeRound - 1];
+        currentMultiplicand = currentJob.a;
+        currentMultiplier = currentJob.b;
+        correctAnswer = currentMultiplicand * currentMultiplier;
+
+        updateQuizDisplay(false);
+        document.getElementById('taigi-pinyin').innerText = "⚔️ 認真看，答案是佗一个？";
+
+        setupOptions();
+
+        if (hasUserInteracted) {
+            speakCurrent();
+        }
+    }
+
+    // 產生練習題目
+    function generateQuiz() {
+        currentMultiplier = Math.floor(Math.random() * 9) + 1; 
+        correctAnswer = currentMultiplicand * currentMultiplier;
+
+        updateQuizDisplay(false);
+        
+        let pinyin = `${taigiPinyinNums[currentMultiplicand]} ${taigiPinyinNums[currentMultiplier]} — 得 ${taigiPinyinAns[correctAnswer] || correctAnswer}`;
+        document.getElementById('taigi-pinyin').innerText = pinyin + " 🔊";
+
+        setupOptions();
+        
+        // 僅在使用者與頁面互動後才進行自動播放，避免 Autoplay 阻擋導致錯誤 fallback
+        if (hasUserInteracted) {
+            speakCurrent();
+        }
+    }
+
+    function setupOptions() {
+        document.getElementById('feedback-text').innerText = '';
+        let options = [correctAnswer];
+        while (options.length < 4) {
+            let wrongAns = correctAnswer + (Math.floor(Math.random() * 5) - 2) * currentMultiplicand;
+            if (wrongAns > 0 && !options.includes(wrongAns)) options.push(wrongAns);
+            else {
+                let randomWrong = Math.floor(Math.random() * 80) + 2;
+                if (!options.includes(randomWrong)) options.push(randomWrong);
+            }
+        }
+        options.sort(() => Math.random() - 0.5);
+
+        const optionButtons = document.querySelectorAll('.btn-option');
+        optionButtons.forEach((btn, index) => {
+            btn.innerText = options[index];
+            btn.style.backgroundColor = '#a8e6cf'; 
+            btn.style.color = '#2d3436';
+            btn.style.boxShadow = '0 8px 0 #7cb39b';
+            btn.disabled = false;
+        });
+    }
+
+    function checkAnswer(selectedButton) {
+        const chosen = parseInt(selectedButton.innerText);
+        const feedback = document.getElementById('feedback-text');
+        const optionButtons = document.querySelectorAll('.btn-option');
+        const quizBox = document.querySelector('.quiz-box');
+
+        optionButtons.forEach(btn => btn.disabled = true);
+
+        if (chosen === correctAnswer) {
+            feedback.innerHTML = "<span class='correct'>讚喔！Tio̍h ah! 🎉</span>";
+            selectedButton.style.backgroundColor = '#2ecc71';
+            selectedButton.style.color = 'white';
+            selectedButton.style.boxShadow = '0 2px 0 #27ae60';
+            
+            quizBox.classList.add('bounce-effect');
+            setTimeout(() => quizBox.classList.remove('bounce-effect'), 600);
+            
+            triggerConfetti();
+            playTaigiTTS("著矣"); // 教育部推薦用字 "著矣"
+            
+            if (currentMode === 'practice') {
+                practiceScore++;
+                document.getElementById('practice-score').innerHTML = `累積著 (Lúi-tsik tio̍h)：${practiceScore} 題`;
+            } else {
+                challengeScore++;
+            }
+        } else {
+            feedback.innerHTML = `<span class='wrong'>毋著喔！M̄-tio̍h--ooh! 👀</span>`;
+            selectedButton.style.backgroundColor = '#ff7675';
+            selectedButton.style.color = 'white';
+            selectedButton.style.boxShadow = '0 2px 0 #c0392b';
+            
+            quizBox.classList.add('shake');
+            setTimeout(() => quizBox.classList.remove('shake'), 500);
+            
+            playTaigiTTS("毋著喔");
+            
+            optionButtons.forEach(btn => {
+                if (parseInt(btn.innerText) === correctAnswer) {
+                    btn.style.backgroundColor = '#2ecc71';
+                    btn.style.color = 'white';
+                    btn.style.boxShadow = '0 2px 0 #27ae60';
+                }
+            });
+        }
+
+        updateQuizDisplay(true);
+
+        setTimeout(() => {
+            if (currentMode === 'practice') {
+                generateQuiz();
+            } else {
+                if (challengeRound < 10 && timeLeft > 0) {
+                    nextChallengeQuestion();
+                } else {
+                    clearInterval(timerInterval);
+                    showChallengeResult(false);
+                }
+            }
+        }, 1500);
+    }
+
+    function showChallengeResult(isTimeOut) {
+        document.getElementById('quiz-game-interface').style.display = 'none';
+        document.getElementById('quiz-text').innerText = isTimeOut ? "時間到！" : "試完了！";
+        
+        const resultArea = document.getElementById('result-area');
+        const scoreText = document.getElementById('result-score');
+        const starsText = document.getElementById('result-stars');
+        const highScoreText = document.getElementById('high-score');
+        
+        resultArea.style.display = 'block';
+        scoreText.innerText = `答對了 ${challengeScore} / 10 題！ (Tap-tio̍h ${challengeScore} tê!)`;
+
+        // 計算歷史最高分
+        let localHigh = localStorage.getItem('taigi_high') || 0;
+        if(challengeScore > localHigh) {
+            localStorage.setItem('taigi_high', challengeScore);
+            localHigh = challengeScore;
+            highScoreText.innerText = `🥳 哇！你打破最高紀錄了！ (Phò kì-lo̍k ah!)`;
+        } else {
+            highScoreText.innerText = `歷史最高紀錄 (Tsuè-kôan kì-lo̍k)：${localHigh} 題`;
+        }
+
+        // 貼紙獎勵機制
+        let stickers = JSON.parse(localStorage.getItem('taigi_stickers')) || [];
+        if (challengeScore >= 8) { // 答對8題以上送貼紙
+            starsText.innerText = "⭐⭐⭐⭐⭐ (真厲害！)";
+            let newSticker = rewardStickers[Math.floor(Math.random() * rewardStickers.length)];
+            if(!stickers.includes(newSticker)) {
+                stickers.push(newSticker);
+                localStorage.setItem('taigi_stickers', JSON.stringify(stickers));
+                alert(`🎁 獲得新貼紙：${newSticker} !`);
+            }
+        } else if (challengeScore >= 5) {
+            starsText.innerText = "⭐⭐⭐ (真讚！再接再厲！)";
+        } else {
+            starsText.innerText = "⭐ (閣試看覓喔！)";
+        }
+
+        // 渲染貼紙牆
+        const container = document.getElementById('stickers-container');
+        container.innerHTML = stickers.length === 0 ? "<span style='color:#aaa;'>還沒有貼紙，答對8題以上看看吧！</span>" : "";
+        stickers.forEach(stk => {
+            container.innerHTML += `<span class="sticker">${stk}</span>`;
+        });
+    }
+
+    generateQuiz();
+</script>
+
+</body>
+</html>

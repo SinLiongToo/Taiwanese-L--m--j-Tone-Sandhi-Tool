@@ -1,0 +1,3435 @@
+<!DOCTYPE html>
+<html lang="zh-Hant" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>台灣鐵路四界行 — 歡喜學台語 (Tâi-oân Hoé-chhia冒險!)</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Noto+Sans+TC:wght@100..900&family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+:root {
+    --primary: #FF7675;
+    --primary-hover: #EF5350;
+    --secondary: #00CEC9;
+    --secondary-hover: #00B894;
+    --accent: #FFEAA7;
+    --bg-gradient: linear-gradient(135deg, #F3F8FA 0%, #EBF4F6 50%, #E2EFF1 100%);
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --card-border: rgba(255, 255, 255, 0.6);
+    --text: #2D3436;
+    --text-light: #636E72;
+    --rail-color: #B2BEC3;
+    --rail-active: #0984E3;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    --shadow-active: 0 15px 35px rgba(255, 118, 117, 0.25);
+    --border-radius: 24px;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-theme="dark"] {
+    --primary: #FF7675;
+    --primary-hover: #FF8E8D;
+    --secondary: #00CEC9;
+    --secondary-hover: #81ECEC;
+    --accent: #FDCB6E;
+    --bg-gradient: linear-gradient(135deg, #1E272E 0%, #0F171E 100%);
+    --card-bg: rgba(30, 39, 46, 0.85);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --text: #F5F6FA;
+    --text-light: #A5B1C2;
+    --rail-color: #485460;
+    --rail-active: #00D2D3;
+    --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    --shadow-active: 0 15px 35px rgba(255, 118, 117, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    -webkit-tap-highlight-color: transparent;
+}
+
+body {
+    font-family: 'Fredoka', 'Noto Sans TC', 'Outfit', sans-serif;
+    background: var(--bg-gradient);
+    color: var(--text);
+    min-height: 100vh;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: background 0.5s ease, color 0.3s ease;
+    overflow-x: hidden;
+}
+
+header {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 25px;
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid var(--card-border);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow);
+    margin-bottom: 25px;
+    transition: var(--transition);
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-section h1 {
+    font-size: 1.6rem;
+    font-weight: 800;
+    background: linear-gradient(45deg, var(--primary), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo-section small {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-top: 2px;
+}
+
+.header-controls {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btn-icon {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    color: var(--text);
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.btn-icon:hover {
+    transform: translateY(-2px) scale(1.05);
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.lang-btn {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    color: white;
+    border: none;
+    padding: 10px 18px;
+    font-size: 0.95rem;
+    font-weight: 700;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 118, 117, 0.2);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.lang-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 118, 117, 0.35);
+}
+
+/* Navigation Tabs */
+.nav-tabs {
+    width: 100%;
+    max-width: 1200px;
+    display: flex;
+    gap: 10px;
+    margin-bottom: 25px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    scrollbar-width: none; /* Firefox */
+}
+
+.nav-tabs::-webkit-scrollbar {
+    display: none; /* Safari and Chrome */
+}
+
+.tab-trigger {
+    flex: 1;
+    min-width: 120px;
+    padding: 14px 10px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 2px solid var(--card-border);
+    border-radius: 18px;
+    color: var(--text-light);
+    font-size: 0.95rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.tab-trigger i {
+    font-size: 1.3rem;
+    transition: var(--transition);
+}
+
+.tab-trigger:hover {
+    color: var(--primary);
+    transform: translateY(-2px);
+    border-color: var(--primary);
+}
+
+.tab-trigger.active {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+    box-shadow: var(--shadow-active);
+    transform: translateY(-2px);
+}
+
+.tab-trigger.active i {
+    transform: scale(1.15);
+}
+
+/* Panels */
+.tab-panel {
+    display: none;
+    width: 100%;
+    max-width: 1200px;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.tab-panel.active {
+    display: grid;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Grid Layouts */
+.adventure-grid {
+    grid-template-columns: 1.2fr 1fr;
+    gap: 30px;
+}
+
+.two-col-layout {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 30px;
+}
+
+@media (max-width: 900px) {
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+        padding: 20px;
+    }
+    
+    .logo-section {
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+    }
+    
+    .header-controls {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .adventure-grid, .two-col-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 10px 15px;
+        margin-bottom: 15px;
+    }
+    
+    .logo-section h1 {
+        font-size: 1.25rem;
+    }
+    
+    .logo-section small {
+        font-size: 0.7rem;
+    }
+    
+    .header-controls {
+        gap: 8px;
+    }
+    
+    .speech-badge {
+        font-size: 0.7rem;
+        padding: 6px 10px;
+    }
+    
+    .rate-controller {
+        padding: 4px 10px;
+        font-size: 0.75rem;
+        gap: 6px;
+    }
+    
+    .rate-controller input[type="range"] {
+        width: 45px;
+    }
+    
+    .rate-label {
+        min-width: 25px;
+    }
+    
+    .lang-btn {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+    
+    .btn-icon {
+        width: 36px;
+        height: 36px;
+        font-size: 1rem;
+    }
+    
+    .tab-trigger {
+        min-width: 95px;
+        padding: 10px 6px;
+        font-size: 0.8rem;
+        border-radius: 14px;
+        gap: 4px;
+    }
+    
+    .tab-trigger i {
+        font-size: 1.05rem;
+    }
+    
+    .card {
+        padding: 15px;
+        border-radius: 18px;
+    }
+
+    .card-title {
+        font-size: 1.15rem;
+        margin-bottom: 15px;
+    }
+    
+    .clock-controls {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+        width: 100%;
+        max-width: 280px;
+        margin: 0 auto;
+    }
+    
+    .btn-ctrl {
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        justify-content: center;
+    }
+    
+    .quiz-select-btns {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin: 25px auto 0;
+        gap: 12px;
+    }
+    
+    .btn-quiz-select {
+        width: 100%;
+        padding: 12px 20px;
+        font-size: 1rem;
+    }
+    
+    .vocab-filter {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+    
+    .filter-btn {
+        padding: 6px 12px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Cards */
+.card {
+    background: var(--card-bg);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 2px solid var(--card-border);
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+}
+
+.card:hover {
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 20px;
+    color: var(--primary);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.badge-row {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 15px;
+}
+
+.speech-badge {
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 8px 14px;
+    border-radius: 50px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    transition: var(--transition);
+}
+
+.rate-controller {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    padding: 6px 14px;
+    border-radius: 50px;
+    box-shadow: var(--shadow);
+    color: var(--text);
+    font-size: 0.85rem;
+    font-weight: 700;
+}
+
+.rate-controller input[type="range"] {
+    width: 60px;
+    accent-color: var(--primary);
+    cursor: pointer;
+    height: 6px;
+    border-radius: 3px;
+    outline: none;
+}
+
+.rate-label {
+    min-width: 32px;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+
+.badge-google {
+    background: #FFEAA7;
+    color: #D63031;
+}
+
+.badge-local {
+    background: #E17055;
+    color: white;
+}
+
+/* Form Controls */
+.form-group {
+    margin-bottom: 18px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 700;
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+    color: var(--text);
+}
+
+select {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text);
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: 16px;
+    outline: none;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.02);
+    transition: var(--transition);
+}
+
+select:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(255, 118, 117, 0.15);
+}
+
+.ticket-stepper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    border: 2px solid var(--card-border);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.stepper-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 10px rgba(255, 118, 117, 0.2);
+    transition: var(--transition);
+}
+
+.stepper-btn:hover:not(:disabled) {
+    transform: scale(1.05);
+    background: var(--primary-hover);
+}
+
+.stepper-btn:disabled {
+    background: #BDC3C7;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.stepper-value {
+    font-size: 1.3rem;
+    font-weight: 800;
+}
+
+/* Info Display Card */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--card-border);
+}
+
+.info-row:last-child {
+    border-bottom: none;
+}
+
+.info-label {
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+.info-value {
+    font-weight: 800;
+    color: var(--text);
+    text-align: right;
+}
+
+.info-value .tai-pinyin {
+    display: block;
+    font-size: 0.8rem;
+    color: var(--primary);
+    font-weight: 600;
+}
+
+/* Button Call-To-Action */
+.btn-cta {
+    width: 100%;
+    padding: 16px;
+    border: none;
+    border-radius: 18px;
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    color: white;
+    font-size: 1.15rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(255, 118, 117, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 15px;
+    transition: var(--transition);
+}
+
+.btn-cta:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(255, 118, 117, 0.45);
+}
+
+.btn-cta:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.btn-cta:disabled {
+    background: #BDC3C7;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.sentence-display {
+    margin-top: 15px;
+    padding: 15px;
+    background: rgba(255, 234, 167, 0.15);
+    border-left: 5px solid var(--accent);
+    border-radius: 0 16px 16px 0;
+    display: none;
+    animation: slideDown 0.3s ease forwards;
+}
+
+.sentence-display.active {
+    display: block;
+}
+
+.sentence-zh {
+    font-weight: 800;
+    font-size: 1.05rem;
+    margin-bottom: 5px;
+}
+
+.sentence-tw {
+    font-size: 0.95rem;
+    color: var(--primary);
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-5px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Map Display */
+.map-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 520px;
+}
+
+.map-svg-container {
+    position: relative;
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    aspect-ratio: 320 / 500;
+}
+
+#svg-map {
+    width: 100%;
+    height: 100%;
+}
+
+.taiwan-outline {
+    fill: rgba(0, 206, 203, 0.03);
+    stroke: var(--secondary);
+    stroke-width: 2;
+    stroke-dasharray: 6 4;
+    opacity: 0.5;
+}
+
+.rail-track {
+    fill: none;
+    stroke: var(--rail-color);
+    stroke-width: 4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: var(--transition);
+}
+
+.rail-track-dashed {
+    fill: none;
+    stroke: var(--card-bg);
+    stroke-width: 2.5;
+    stroke-dasharray: 5 5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.rail-active-path {
+    fill: none;
+    stroke: var(--rail-active);
+    stroke-width: 4.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-dasharray: 1000;
+    stroke-dashoffset: 1000;
+    animation: drawPath 1.2s ease forwards;
+}
+
+@keyframes drawPath {
+    to { stroke-dashoffset: 0; }
+}
+
+.station-point {
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.station-point circle {
+    fill: var(--card-bg);
+    stroke: var(--rail-color);
+    stroke-width: 2.5;
+    transition: var(--transition);
+}
+
+.station-point text {
+    font-family: inherit;
+    font-weight: 800;
+    font-size: 11px;
+    fill: var(--text);
+    text-shadow: 2px 2px 0 var(--card-bg), -2px -2px 0 var(--card-bg), 2px -2px 0 var(--card-bg), -2px 2px 0 var(--card-bg);
+    transition: var(--transition);
+    user-select: none;
+}
+
+.station-point:hover circle {
+    transform: scale(1.3);
+    stroke: var(--primary);
+    fill: var(--accent);
+}
+
+.station-point.active circle {
+    fill: var(--primary);
+    stroke: var(--card-bg);
+    stroke-width: 3;
+    r: 9;
+    filter: drop-shadow(0 0 6px var(--primary));
+}
+
+.station-point.active text {
+    fill: var(--primary);
+    font-size: 12px;
+}
+
+.station-point.in-route circle {
+    fill: var(--secondary);
+    stroke: var(--card-bg);
+    r: 7;
+}
+
+.train-marker {
+    position: absolute;
+    width: 28px;
+    height: 28px;
+    z-index: 10;
+    pointer-events: none;
+    display: none;
+    transition: left 0.6s cubic-bezier(0.25, 1, 0.5, 1), top 0.6s cubic-bezier(0.25, 1, 0.5, 1);
+    transform: translate(-50%, -50%);
+}
+
+.train-marker.active {
+    display: block;
+}
+
+.train-icon-svg {
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+    animation: chug-animation 0.2s infinite alternate;
+}
+
+@keyframes chug-animation {
+    0% { transform: translateY(0) rotate(-2deg); }
+    100% { transform: translateY(-2px) rotate(2deg); }
+}
+
+/* Vocabulary Tab */
+.vocab-filter {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.filter-btn {
+    padding: 8px 16px;
+    border: 2px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text);
+    border-radius: 50px;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+}
+
+.filter-btn.active {
+    background: var(--secondary);
+    color: white;
+    border-color: var(--secondary);
+}
+
+.vocab-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.vocab-card {
+    background: var(--card-bg);
+    border: 2px solid var(--card-border);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+}
+
+.vocab-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 12px 25px rgba(255, 118, 117, 0.15);
+}
+
+.vocab-emoji {
+    font-size: 2.8rem;
+    margin-bottom: 12px;
+    display: inline-block;
+    transition: var(--transition);
+}
+
+.vocab-card:hover .vocab-emoji {
+    transform: scale(1.15) rotate(5deg);
+}
+
+.vocab-zh {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 4px;
+}
+
+.vocab-pinyin {
+    font-size: 0.85rem;
+    color: var(--primary);
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.vocab-en {
+    font-size: 0.8rem;
+    color: var(--text-light);
+    font-weight: 500;
+}
+
+/* Time & Clock Tab */
+.clock-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+}
+
+.interactive-clock {
+    width: 250px;
+    height: 250px;
+    background: var(--card-bg);
+    border: 8px solid var(--secondary);
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 10px 25px rgba(0,206,203,0.15);
+    margin-bottom: 25px;
+    user-select: none;
+    touch-action: none;
+}
+
+.clock-face {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.clock-center {
+    width: 14px;
+    height: 14px;
+    background: var(--text);
+    border: 3px solid var(--secondary);
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 5;
+}
+
+.clock-hand {
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    transform-origin: bottom center;
+    border-radius: 10px;
+    z-index: 3;
+}
+
+.clock-hand.hour {
+    width: 6px;
+    height: 65px;
+    background: var(--text);
+}
+
+.clock-hand.minute {
+    width: 4px;
+    height: 95px;
+    background: var(--primary);
+}
+
+.clock-number {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: var(--text);
+}
+
+.clock-12 { top: 10px; left: 50%; transform: translateX(-50%); }
+.clock-3 { right: 10px; top: 50%; transform: translateY(-50%); }
+.clock-6 { bottom: 10px; left: 50%; transform: translateX(-50%); }
+.clock-9 { left: 10px; top: 50%; transform: translateY(-50%); }
+
+.clock-setter-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+}
+
+.time-readout {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: var(--text);
+    text-align: center;
+}
+
+.time-readout-pinyin {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin-top: 5px;
+    text-align: center;
+}
+
+.clock-controls {
+    display: flex;
+    gap: 12px;
+}
+
+.btn-ctrl {
+    padding: 10px 18px;
+    border: 2px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text);
+    border-radius: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.btn-ctrl:hover {
+    border-color: var(--secondary);
+    color: var(--secondary);
+    transform: translateY(-1px);
+}
+
+/* Quiz Tab & Challenge Panel */
+.quiz-welcome {
+    text-align: center;
+    max-width: 600px;
+    margin: 40px auto;
+}
+
+.welcome-emoji {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.quiz-select-btns {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.btn-quiz-select {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 20px;
+    background: linear-gradient(135deg, var(--secondary) 0%, var(--secondary-hover) 100%);
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,206,203,0.2);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+}
+
+.btn-quiz-select.primary {
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-hover) 100%);
+    box-shadow: 0 4px 15px rgba(255, 118, 117, 0.2);
+}
+
+.btn-quiz-select:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.quiz-container {
+    display: none;
+}
+
+.quiz-container.active {
+    display: flex;
+    flex-direction: column;
+}
+
+.quiz-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid var(--card-border);
+}
+
+.quiz-stat {
+    font-size: 1.1rem;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.timer-bar-container {
+    width: 100%;
+    height: 8px;
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 25px;
+}
+
+.timer-bar {
+    height: 100%;
+    width: 100%;
+    background: var(--primary);
+    transition: width 1s linear;
+}
+
+.quiz-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.audio-box {
+    margin-bottom: 25px;
+}
+
+.btn-play-audio {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    border: none;
+    background: var(--primary);
+    color: white;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 8px 25px rgba(255, 118, 117, 0.35);
+    animation: ripple 2s infinite;
+    transition: var(--transition);
+}
+
+.btn-play-audio:hover {
+    transform: scale(1.05);
+    background: var(--primary-hover);
+}
+
+@keyframes ripple {
+    0% { box-shadow: 0 0 0 0 rgba(255, 118, 117, 0.4); }
+    70% { box-shadow: 0 0 0 15px rgba(255, 118, 117, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 118, 117, 0); }
+}
+
+.quiz-question-txt {
+    font-size: 1.3rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+    max-width: 500px;
+}
+
+.quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    width: 100%;
+    max-width: 550px;
+}
+
+@media (max-width: 500px) {
+    .quiz-options {
+        grid-template-columns: 1fr;
+    }
+}
+
+.option-btn {
+    padding: 16px 20px;
+    border: 2px solid var(--card-border);
+    background: var(--card-bg);
+    color: var(--text);
+    border-radius: 18px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: var(--transition);
+    text-align: center;
+}
+
+.option-btn:hover:not(:disabled) {
+    border-color: var(--secondary);
+    background: rgba(0, 206, 203, 0.05);
+    transform: translateY(-2px);
+}
+
+.option-btn.correct {
+    background: #2ECC71 !important;
+    color: white !important;
+    border-color: #2ECC71 !important;
+    box-shadow: 0 5px 15px rgba(46, 204, 113, 0.3) !important;
+}
+
+.option-btn.wrong {
+    background: #E74C3C !important;
+    color: white !important;
+    border-color: #E74C3C !important;
+    box-shadow: 0 5px 15px rgba(231, 76, 60, 0.3) !important;
+}
+
+.quiz-feedback {
+    margin-top: 25px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    min-height: 30px;
+}
+
+.quiz-feedback.success { color: #2ECC71; }
+.quiz-feedback.error { color: #E74C3C; }
+
+/* Result Display */
+.quiz-result {
+    display: none;
+    text-align: center;
+    max-width: 550px;
+    margin: 0 auto;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.result-header {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 15px;
+}
+
+.result-score {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 25px;
+}
+
+.result-rewards {
+    background: rgba(255, 234, 167, 0.2);
+    border: 3px dashed var(--accent);
+    padding: 20px;
+    border-radius: var(--border-radius);
+    margin-bottom: 25px;
+}
+
+.stamp-unlock-txt {
+    font-weight: 800;
+    color: #D35400;
+    font-size: 1.1rem;
+    margin-bottom: 12px;
+}
+
+.unlocked-stamp-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Stamps Collection Tab */
+.stamp-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+    gap: 20px;
+    width: 100%;
+}
+
+.stamp-item {
+    background: var(--card-bg);
+    border: 3px dashed var(--card-border);
+    border-radius: 50%;
+    aspect-ratio: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+    position: relative;
+    padding: 10px;
+    box-shadow: var(--shadow);
+}
+
+.stamp-item.locked {
+    filter: grayscale(1) opacity(0.4);
+    border-style: dashed;
+}
+
+.stamp-item.unlocked {
+    border: 3px solid var(--primary);
+    background: radial-gradient(circle, #FFF9F2 0%, #FFEAA7 100%);
+    transform: rotate(-5deg);
+    box-shadow: 0 10px 20px rgba(243, 156, 18, 0.2);
+    animation: stampStamp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes stampStamp {
+    0% { transform: scale(3) rotate(15deg); opacity: 0; }
+    100% { transform: scale(1) rotate(-5deg); opacity: 1; }
+}
+
+.stamp-icon {
+    font-size: 2.2rem;
+    margin-bottom: 5px;
+}
+
+.stamp-name {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: #2D3436;
+}
+
+.stamp-city-zh {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--text-light);
+}
+
+/* Confetti particles */
+.confetti-particle {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    z-index: 100;
+    pointer-events: none;
+    animation: confetti-anim 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes confetti-anim {
+    0% {
+        transform: translate(0, 0) scale(1) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), -200px) scale(0.4) rotate(var(--rot));
+        opacity: 0;
+    }
+}
+
+/* Shake Animation for Wrong Answers */
+.shake {
+    animation: shake-anim 0.5s ease;
+}
+
+@keyframes shake-anim {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-8px); }
+    40%, 80% { transform: translateX(8px); }
+}
+
+/* Bounce Animation */
+.bounce-effect {
+    animation: bounce-anim 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes bounce-anim {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-15px); }
+}
+
+/* Footer Section */
+footer {
+    width: 100%;
+    max-width: 1200px;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    color: var(--text-light);
+    font-size: 0.85rem;
+    font-weight: 500;
+    border-top: 1px solid var(--card-border);
+}
+</style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <div class="logo-section">
+            <h1 id="ui-title"><i class="fa-solid fa-train-subway"></i> 台灣鐵路四界行</h1>
+            <small id="ui-subtitle">歡喜學台語 / Fun Taiwanese Railway Adventure</small>
+        </div>
+        <div class="header-controls">
+            <!-- Speech Engine Badge -->
+            <span id="speech-engine-badge" class="speech-badge badge-google">🔊 實體台語 (教育部)</span>
+            <!-- Speech Rate Slider -->
+            <div class="rate-controller" title="調整台語語速 (Speech Speed)">
+                <i class="fa-solid fa-gauge-high"></i>
+                <input type="range" id="speech-rate" min="0.5" max="1.5" step="0.1" value="1.0" onchange="updateSpeechRate(this.value)" oninput="updateSpeechRateLabel(this.value)" aria-label="Adjust speech rate">
+                <span id="speech-rate-label" class="rate-label">1.0x</span>
+            </div>
+            <!-- Dark Mode Toggle -->
+            <button id="theme-toggle-btn" class="btn-icon" onclick="toggleTheme()" aria-label="Toggle Theme" title="切換深色模式">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <!-- Language Toggle -->
+            <button id="lang-toggle-btn" class="lang-btn" onclick="toggleLanguage()">
+                <i class="fa-solid fa-language"></i> <span id="lang-toggle-text">Language: 台語</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Navigation Tabs -->
+    <nav class="nav-tabs" aria-label="Main Navigation">
+        <button id="tab-adventure-btn" class="tab-trigger active" onclick="switchTab('adventure')">
+            <i class="fa-solid fa-map-location-dot"></i>
+            <span id="ui-tab-adventure">購票大冒險</span>
+        </button>
+        <button id="tab-vocab-btn" class="tab-trigger" onclick="switchTab('vocab')">
+            <i class="fa-solid fa-book-open"></i>
+            <span id="ui-tab-vocab">交通詞彙牆</span>
+        </button>
+        <button id="tab-time-btn" class="tab-trigger" onclick="switchTab('time')">
+            <i class="fa-solid fa-clock"></i>
+            <span id="ui-tab-time">時間鐘點師</span>
+        </button>
+        <button id="tab-quiz-btn" class="tab-trigger" onclick="switchTab('quiz')">
+            <i class="fa-solid fa-gamepad"></i>
+            <span id="ui-tab-quiz">台語大檢定</span>
+        </button>
+        <button id="tab-stamps-btn" class="tab-trigger" onclick="switchTab('stamps')">
+            <i class="fa-solid fa-stamp"></i>
+            <span id="ui-tab-stamps">我的集章冊</span>
+        </button>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main>
+        <!-- Tab 1: Adventure & Booking -->
+        <section id="panel-adventure" class="tab-panel adventure-grid active">
+            <!-- Interactive Ticket Booth Card -->
+            <div class="card">
+                <h2 class="card-title" id="ui-booth-title"><i class="fa-solid fa-ticket"></i> 售票亭 Ticket Booth</h2>
+                
+                <div class="form-group">
+                    <label for="start-station" id="ui-label-from">起點站 From:</label>
+                    <select id="start-station" onchange="calculateJourney()"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="end-station" id="ui-label-to">終點站 To:</label>
+                    <select id="end-station" onchange="calculateJourney()"></select>
+                </div>
+
+                <div class="form-group">
+                    <label for="train-class" id="ui-label-class">火車種類 Class:</label>
+                    <select id="train-class" onchange="calculateJourney()">
+                        <option value="local">區間車 (Local Train) - 每公里 NT$2.0</option>
+                        <option value="express" selected>自強號 (Express Train) - 每公里 NT$3.5</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label id="ui-label-passengers">張數 Tickets:</label>
+                    <div class="ticket-stepper">
+                        <button id="btn-dec-passengers" class="stepper-btn" onclick="changePassengers(-1)" aria-label="Decrease tickets">-</button>
+                        <span id="passenger-count" class="stepper-value">1</span>
+                        <button id="btn-inc-passengers" class="stepper-btn" onclick="changePassengers(1)" aria-label="Increase tickets">+</button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="departure-time" id="ui-label-dep-time">發車時間 Departure:</label>
+                    <select id="departure-time" onchange="calculateJourney()">
+                        <option value="08:00">早上 08:00 (tshán-khí peh tiám)</option>
+                        <option value="10:30">早上 10:30 (tshán-khí tsa̍p tiám puàn)</option>
+                        <option value="13:15">下午 13:15 (ē-po͘ tsı̍t tiám tsa̍p-gōo hun)</option>
+                        <option value="15:30" selected>下午 15:30 (ē-po͘ sann tiám puàn)</option>
+                        <option value="18:45">晚上 18:45 (am-sî la̍k tiám sì-tsa̍p-gōo hun)</option>
+                        <option value="20:00">晚上 20:00 (am-sî peh tiám)</option>
+                    </select>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid var(--card-border); margin: 20px 0;">
+
+                <!-- Results display -->
+                <div class="info-display">
+                    <div class="info-row">
+                        <span class="info-label" id="ui-info-direction">行車方向 Direction:</span>
+                        <span class="info-value"><span id="info-direction">-</span></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label" id="ui-info-duration">乘車時間 Duration:</span>
+                        <span class="info-value"><span id="info-duration">-</span></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label" id="ui-info-cost">總票價 Total Cost:</span>
+                        <span class="info-value"><span id="info-cost">-</span></span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label" id="ui-info-platform">候車月台 Platform:</span>
+                        <span class="info-value"><span id="info-platform">-</span></span>
+                    </div>
+                </div>
+
+                <!-- CTA Audio buttons -->
+                <button id="play-journey-btn" class="btn-cta" onclick="playFullJourneyAudio()" disabled>
+                    <i class="fa-solid fa-volume-high animate-bounce"></i> <span id="ui-btn-play-journey">播放台語購票語音</span>
+                </button>
+
+                <!-- Sentence breakdown display -->
+                <div id="journey-sentence-box" class="sentence-display">
+                    <p class="sentence-zh" id="journey-sentence-zh"></p>
+                    <p class="sentence-tw" id="journey-sentence-tw"></p>
+                </div>
+            </div>
+
+            <!-- SVG Taiwan Map Card -->
+            <div class="card map-card">
+                <h2 class="card-title" id="ui-map-title"><i class="fa-solid fa-compass"></i> 環島鐵道路線圖 Map</h2>
+                
+                <div class="map-svg-container" id="map-container">
+                    <!-- Train marker moving along path -->
+                    <div id="train-marker" class="train-marker">
+                        <svg class="train-icon-svg" viewBox="0 0 100 100">
+                            <rect x="15" y="30" width="70" height="40" rx="10" fill="#FF7675" stroke="#FFFFFF" stroke-width="4"/>
+                            <rect x="60" y="35" width="20" height="15" rx="3" fill="#FFEAA7"/>
+                            <rect x="25" y="40" width="10" height="15" rx="2" fill="#EBF4F6"/>
+                            <rect x="42" y="40" width="10" height="15" rx="2" fill="#EBF4F6"/>
+                            <circle cx="35" cy="75" r="10" fill="#2D3436" stroke="#FFFFFF" stroke-width="3"/>
+                            <circle cx="65" cy="75" r="10" fill="#2D3436" stroke="#FFFFFF" stroke-width="3"/>
+                            <path d="M 65 30 L 70 15 L 60 15 Z" fill="#636E72" /> <!-- Smoke stack -->
+                            <circle cx="58" cy="10" r="5" fill="#E8F9FF" opacity="0.8"/> <!-- Smoke bubble -->
+                        </svg>
+                    </div>
+
+                    <!-- SVG Map elements drawn dynamically in app.js -->
+                    <svg id="svg-map" width="320" height="500" viewBox="0 0 320 500">
+                        <!-- Taiwan boundary contour (simplified SVG path) -->
+                        <path class="taiwan-outline" d="M 180 30 C 230 80, 240 160, 230 240 C 210 320, 180 400, 140 470 C 110 490, 80 490, 70 450 C 50 390, 50 310, 60 230 C 70 150, 100 90, 140 40 C 155 25, 170 20, 180 30 Z" />
+                        
+                        <!-- Circular railway track path -->
+                        <path id="svg-rail-track" class="rail-track" d="" />
+                        <path id="svg-rail-track-dashed" class="rail-track-dashed" d="" />
+                        <path id="svg-rail-active-path" class="rail-active-path" d="" />
+
+                        <!-- Group for station points -->
+                        <g id="svg-stations-group"></g>
+                    </svg>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tab 2: Vocabulary Wall -->
+        <section id="panel-vocab" class="tab-panel card">
+            <h2 class="card-title" id="ui-vocab-title"><i class="fa-solid fa-book-open"></i> 交通台語詞彙牆 Vocabulary</h2>
+            <!-- Filter buttons -->
+            <div class="vocab-filter">
+                <button class="filter-btn active" id="btn-filter-all" onclick="filterVocab('all')">全部 All</button>
+                <button class="filter-btn" id="btn-filter-vehicles" onclick="filterVocab('vehicles')">交通工具 Vehicles</button>
+                <button class="filter-btn" id="btn-filter-stations" onclick="filterVocab('stations')">鐵路場景 Stations</button>
+            </div>
+            <!-- Vocabulary Grid -->
+            <div class="vocab-grid" id="vocab-container"></div>
+        </section>
+
+        <!-- Tab 3: Interactive Time / Clock Trainer -->
+        <section id="panel-time" class="tab-panel two-col-layout">
+            <!-- Left: Interactive Clock -->
+            <div class="card clock-container">
+                <h2 class="card-title" id="ui-clock-title"><i class="fa-solid fa-circle-notch"></i> 撥撥看時鐘 Clock Trainer</h2>
+                
+                <div class="interactive-clock" id="interactive-clock">
+                    <div class="clock-face">
+                        <div class="clock-number clock-12">12</div>
+                        <div class="clock-number clock-3">3</div>
+                        <div class="clock-number clock-6">6</div>
+                        <div class="clock-number clock-9">9</div>
+                        <div class="clock-center"></div>
+                        <!-- Clock hands -->
+                        <div id="clock-hour-hand" class="clock-hand hour"></div>
+                        <div id="clock-min-hand" class="clock-hand minute"></div>
+                    </div>
+                </div>
+
+                <div class="clock-setter-panel">
+                    <div class="time-readout" id="clock-time-digital">15:30</div>
+                    <div class="time-readout-pinyin" id="clock-time-tw">下午三點半<br><small>ē-po͘ sann tiám puàn</small></div>
+                </div>
+            </div>
+
+            <!-- Right: Time Learning & Control -->
+            <div class="card">
+                <h2 class="card-title" id="ui-time-learn-title"><i class="fa-solid fa-graduation-cap"></i> 時間台語發音教室</h2>
+                
+                <div class="form-group">
+                    <label id="ui-label-adjust-time">微調時間 Adjust Time:</label>
+                    <div class="clock-controls">
+                        <button class="btn-ctrl" id="btn-clock-dec-1h" onclick="adjustClockTime(-60)" title="減少一小時"><i class="fa-solid fa-circle-minus"></i> -1h</button>
+                        <button class="btn-ctrl" id="btn-clock-dec-15m" onclick="adjustClockTime(-15)" title="減少十五分"><i class="fa-solid fa-minus"></i> -15m</button>
+                        <button class="btn-ctrl" id="btn-clock-inc-15m" onclick="adjustClockTime(15)" title="增加十五分"><i class="fa-solid fa-plus"></i> +15m</button>
+                        <button class="btn-ctrl" id="btn-clock-inc-1h" onclick="adjustClockTime(60)" title="增加一小時"><i class="fa-solid fa-circle-plus"></i> +1h</button>
+                    </div>
+                </div>
+
+                <!-- Fast preset options -->
+                <div class="form-group" style="margin-top: 25px;">
+                    <label id="ui-label-preset-time">常見火車發車時間 Presets:</label>
+                    <div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px;">
+                        <button class="btn-ctrl" id="btn-clock-preset-8-0" onclick="setClockTime(8, 0)">08:00 (八點整)</button>
+                        <button class="btn-ctrl" id="btn-clock-preset-10-30" onclick="setClockTime(10, 30)">10:30 (十點半)</button>
+                        <button class="btn-ctrl" id="btn-clock-preset-12-15" onclick="setClockTime(12, 15)">12:15 (十二點十五分)</button>
+                        <button class="btn-ctrl" id="btn-clock-preset-15-30" onclick="setClockTime(15, 30)">15:30 (三點半)</button>
+                        <button class="btn-ctrl" id="btn-clock-preset-17-45" onclick="setClockTime(17, 45)">17:45 (五點四十五分)</button>
+                        <button class="btn-ctrl" id="btn-clock-preset-20-0" onclick="setClockTime(20, 0)">20:00 (八點整)</button>
+                    </div>
+                </div>
+
+                <hr style="border: none; border-top: 1px solid var(--card-border); margin: 25px 0;">
+
+                <button class="btn-cta" id="play-clock-btn" onclick="playClockAudio()">
+                    <i class="fa-solid fa-volume-high animate-bounce"></i> <span id="ui-btn-play-clock">播放台語時間發音</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Tab 4: Challenges & Quiz -->
+        <section id="panel-quiz" class="tab-panel card">
+            <h2 class="card-title" id="ui-quiz-title"><i class="fa-solid fa-gamepad"></i> 台語大檢定 Challenge Mode</h2>
+
+            <!-- Welcome/Select Mode panel -->
+            <div id="quiz-welcome-panel" class="quiz-welcome">
+                <span class="welcome-emoji">🎫</span>
+                <h3 style="font-size: 1.6rem; font-weight: 800; margin-bottom: 10px;" id="ui-quiz-welcome-title">準備接受台語大挑戰了嗎？</h3>
+                <p style="color: var(--text-light); line-height: 1.6;" id="ui-quiz-welcome-desc">
+                    我們提供兩大交通檢定關卡！點選按鈕後將隨機播放 10 題台語語音，在時限內選出正確答案。
+                    答對 8 題以上即可解鎖該城市的精美火車紀念印章喔！
+                </p>
+                <div class="quiz-select-btns">
+                    <button class="btn-quiz-select primary" id="btn-quiz-seller" onclick="startQuiz('seller')">
+                        <i class="fa-solid fa-user-tie"></i>
+                        <span id="ui-quiz-seller-name">售票員聽力挑戰</span>
+                        <small style="font-weight: 500; font-size: 0.75rem; opacity: 0.8;">目的地與車票數量聽力</small>
+                    </button>
+                    <button class="btn-quiz-select" id="btn-quiz-time" onclick="startQuiz('time')">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span id="ui-quiz-time-name">發車時刻聽力挑戰</span>
+                        <small style="font-weight: 500; font-size: 0.75rem; opacity: 0.8;">火車時刻與時間聽力</small>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Active Quiz panel -->
+            <div id="quiz-game-panel" class="quiz-container">
+                <div class="quiz-header">
+                    <div class="quiz-stat"><i class="fa-solid fa-circle-question"></i> <span id="quiz-progress-text">問題 1 / 10</span></div>
+                    <div class="quiz-stat" id="quiz-score-display"><i class="fa-solid fa-star" style="color: var(--accent);"></i> 分數: 0</div>
+                    <div class="quiz-stat" id="quiz-timer-display" style="color: var(--primary);"><i class="fa-solid fa-hourglass-half"></i> 剩餘: 20s</div>
+                </div>
+
+                <!-- Timer progress bar -->
+                <div class="timer-bar-container">
+                    <div id="quiz-timer-bar" class="timer-bar"></div>
+                </div>
+
+                <div class="quiz-body">
+                    <!-- Play voice button -->
+                    <div class="audio-box">
+                        <button class="btn-play-audio" id="quiz-audio-play-btn" onclick="playQuizQuestionAudio()" aria-label="Play question audio">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
+                    </div>
+
+                    <p class="quiz-question-txt" id="quiz-question-prompt">請點擊上方按鈕播放題目，並選出正確答案：</p>
+
+                    <!-- Multiple choice options -->
+                    <div class="quiz-options" id="quiz-options-container">
+                        <button class="option-btn">選項一</button>
+                        <button class="option-btn">選項二</button>
+                        <button class="option-btn">選項三</button>
+                        <button class="option-btn">選項四</button>
+                    </div>
+
+                    <div class="quiz-feedback" id="quiz-feedback-text"></div>
+                </div>
+            </div>
+
+            <!-- Quiz Result panel -->
+            <div id="quiz-result-panel" class="quiz-result">
+                <div class="result-header" id="quiz-result-title">挑戰結束！</div>
+                <div class="result-score" id="quiz-result-score">您的得分：8 / 10 題</div>
+                
+                <div class="result-rewards" id="quiz-rewards-box">
+                    <p class="stamp-unlock-txt" id="quiz-unlock-stamp-label"><i class="fa-solid fa-gift"></i> 恭喜獲得新車站紀念章！</p>
+                    <div class="unlocked-stamp-item" id="quiz-unlocked-stamp-display">
+                        <!-- Filled in dynamically -->
+                    </div>
+                </div>
+
+                <button class="btn-cta" id="quiz-retry-btn" onclick="resetQuizInterface()">
+                    <i class="fa-solid fa-rotate-left"></i> <span id="ui-btn-retry">返回檢定選單</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Tab 5: Stamps Booklet -->
+        <section id="panel-stamps" class="tab-panel card">
+            <h2 class="card-title" id="ui-stamps-title"><i class="fa-solid fa-stamp"></i> 我的鐵道集章冊 Stamp Album</h2>
+            <p style="color: var(--text-light); margin-bottom: 25px;" id="ui-stamps-desc">
+                在「台語大檢定」中答對 8 題以上即可隨機獲得一個城市的限定紀念章。收集越多，代表你已經搭著火車玩遍了全台灣！
+            </p>
+            <!-- Grid of stamps -->
+            <div class="stamp-grid" id="stamps-container"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 台灣鐵路四界行 — 台語交通互動教學網頁. 全台城市環島版.</p>
+        <p style="font-size: 0.75rem; margin-top: 5px; font-weight: 700;">@史秀里冊房 Tō͘ Sìn-liông 製作 2026</p>
+        <p style="font-size: 0.75rem; margin-top: 5px;">本系統採用中華民國教育部《臺灣台語常用詞辭典》官方真人發音音訊與 Web Speech API 擬真備援技術作為語音引擎.</p>
+    </footer>
+
+    <script>
+// ==========================================
+// 1. 全台環島鐵路車站資料庫 (All Taiwan Cities)
+// ==========================================
+const stations = [
+    { id: "keelung", nameZH: "基隆", nameEN: "Keelung", poj: "Kî-liông", cx: 200, cy: 50, dist: 0, stamp: "⚓" },
+    { id: "taipei", nameZH: "台北", nameEN: "Taipei", poj: "Tâi-pak", cx: 165, cy: 68, dist: 28, stamp: "🏢" },
+    { id: "taoyuan", nameZH: "桃園", nameEN: "Taoyuan", poj: "Thô-hn̂g", cx: 130, cy: 82, dist: 57, stamp: "✈️" },
+    { id: "hsinchu", nameZH: "新竹", nameEN: "Hsinchu", poj: "Sin-tek", cx: 95, cy: 110, dist: 106, stamp: "🔬" },
+    { id: "miaoli", nameZH: "苗栗", nameEN: "Miaoli", poj: "Biâu-le̍k", cx: 80, cy: 150, dist: 154, stamp: "🍓" },
+    { id: "taichung", nameZH: "台中", nameEN: "Taichung", poj: "Tâi-tiong", cx: 85, cy: 200, dist: 193, stamp: "⛲" },
+    { id: "changhua", nameZH: "彰化", nameEN: "Changhua", poj: "Chiong-hoà", cx: 75, cy: 235, dist: 210, stamp: "🪷" },
+    { id: "chiayi", nameZH: "嘉義", nameEN: "Chiayi", poj: "Ka-gī", cx: 70, cy: 295, dist: 291, stamp: "🪵" },
+    { id: "tainan", nameZH: "台南", nameEN: "Tainan", poj: "Tâi-lâm", cx: 65, cy: 350, dist: 352, stamp: "🏯" },
+    { id: "kaohsiung", nameZH: "高雄", nameEN: "Kaohsiung", poj: "Ko-hiông", cx: 78, cy: 400, dist: 399, stamp: "🚢" },
+    { id: "pingtung", nameZH: "屏東", nameEN: "Pingtung", poj: "Pîn-tong", cx: 98, cy: 438, dist: 420, stamp: "🍍" },
+    { id: "taitung", nameZH: "台東", nameEN: "Taitung", poj: "Tâi-tang", cx: 180, cy: 360, dist: 580, stamp: "🎈" },
+    { id: "hualien", nameZH: "花蓮", nameEN: "Hualien", poj: "Hoa-liân", cx: 205, cy: 220, dist: 730, stamp: "⛰️" },
+    { id: "yilan", nameZH: "宜蘭", nameEN: "Yilan", poj: "Gî-lân", cx: 200, cy: 105, dist: 810, stamp: "🥣" }
+];
+
+const totalCircumference = 870; // 宜蘭到基隆 60km，總長 870km
+
+// ==========================================
+// 2. 交通台語詞彙庫 (漢字與台羅拼音對照)
+// ==========================================
+const vocabData = [
+    { zh: "火車", tw: "hoé-chhia", en: "Train", emoji: " Train 🚄", type: "vehicles" },
+    { zh: "捷運", tw: "chia̍t-ūn", en: "MRT/Metro", emoji: " Metro 🚇", type: "vehicles" },
+    { zh: "公車", tw: "kong-chhia", en: "Bus", emoji: " Bus 🚌", type: "vehicles" },
+    { zh: "飛機", tw: "poe-ki", en: "Airplane", emoji: " Plane ✈️", type: "vehicles" },
+    { zh: "鐵馬", tw: "thih-bé", en: "Bicycle", emoji: " Bike 🚲", type: "vehicles" },
+    { zh: "船", tw: "chûn", en: "Ship/Boat", emoji: " Ship 🚢", type: "vehicles" },
+    { zh: "計程車", tw: "kè-thêng-chhia", en: "Taxi", emoji: " Taxi 🚕", type: "vehicles" },
+    { zh: "高鐵", tw: "ko-thih", en: "HSR", emoji: " Bullet 🚅", type: "vehicles" },
+    { zh: "月台", tw: "gue̍h-tâi", en: "Platform", emoji: " Platform 🚉", type: "stations" },
+    { zh: "火車頭", tw: "hoé-chhia-thâu", en: "Station", emoji: " Station 🏠", type: "stations" },
+    { zh: "票口", tw: "phiò-khó͘", en: "Ticket Gate", emoji: " Gate 🎟️", type: "stations" },
+    { zh: "車廂", tw: "chhia-siang", en: "carriage", emoji: " Carriage 🚃", type: "stations" },
+    { zh: "車票", tw: "chhia-phiò", en: "Ticket", emoji: " Ticket 🎫", type: "stations" },
+    { zh: "司機", tw: "su-ki", en: "Driver", emoji: " Driver 🧑‍✈️", type: "stations" },
+    { zh: "售票機", tw: "siū-phiò-ki", en: "Ticket Machine", emoji: " Machine 🤖", type: "stations" },
+    { zh: "鐵路", tw: "thih-lōo", en: "Railway", emoji: " Rail 🛤️", type: "stations" }
+];
+
+// ==========================================
+// 3. 語音對照字典與同音字 (本地離線備援使用)
+// ==========================================
+const twHomophones = {
+    // 站點
+    "基隆": "給龍", "台北": "台八", "桃園": "逃橫", "新竹": "心ㄉㄟ",
+    "苗栗": "苗列", "台中": "台中心", "彰化": "江華", "嘉義": "尬意",
+    "台南": "台南", "高雄": "勾雄", "屏東": "屏東", "台東": "台東",
+    "花蓮": "花連", "宜蘭": "宜蘭",
+    // 詞彙
+    "火車": "毀車", "捷運": "基溫", "公車": "公車", "飛機": "杯機",
+    "鐵馬": "鐵杯", "船": "寸", "計程車": "給聽車", "高鐵": "高鐵",
+    "月台": "月台", "火車頭": "毀車頭", "票口": "標口", "車廂": "車相",
+    "車票": "車標", "司機": "司機", "售票機": "休標基", "鐵路": "鐵路",
+    // 票券/乘車資訊
+    "區間車": "區間車", "自強號": "自強號", "一張": "基張", "兩張": "冷張",
+    "三張": "三張", "四張": "細張", "五張": "奧張", "六張": "拉張",
+    "七張": "七張", "八張": "北張", "九張": "告張", "十張": "雜張",
+    "票": "標", "箍": "科", "元": "科", "攏總": "龍總", "一共": "龍總", "去": "去", "出發": "七滑",
+    "開": "虧", "開車": "虧車", "候車": "好車",
+    // 時間/數字
+    "早起": "載起", "早起時": "載起西", "早上": "載起", "下晡": "誒撥", "下午": "誒撥", "暗時": "暗喜", "晚上": "暗喜", 
+    "第一": "碟伊", "第二": "碟利", "第三": "碟衫", "第四": "碟細",
+    "點半": "點半", "半": "半", "點": "點", "分": "昏", "小時": "點鐘", "分鐘": "昏晶",
+    "兩": "兩", "二": "吉", "三": "衫", "四": "細", "五": "喔", "六": "辣",
+    "七": "七", "八": "北", "九": "狗", "十": "雜", "百": "百", "千": "千",
+    "五十": "奧雜", "一百": "基百", "兩百": "冷百", "三百": "三百", "四百": "四百",
+    "五百": "奧百", "六百": "辣百", "七百": "七百", "八百": "北百", "九百": "告百",
+    "十分": "雜昏", "十五分": "雜奧昏", "二十分": "吉雜昏", "三分": "三雜昏",
+    "四十分": "細雜昏", "四十五分": "細雜奧昏", "五十分": "奧雜昏",
+    // 答題反饋
+    "著矣": "丟啊", "毋著喔": "嗯丟喔", "答對了": "丟啊", "答錯了": "嗯丟喔"
+};
+
+// ==========================================
+// 4. UI 雙語字典
+// ==========================================
+const uiStrings = {
+    ZH: {
+        title: "台灣鐵路四界行", subtitle: "歡喜學台語 / Fun Taiwanese Railway Adventure",
+        tabAdventure: "購票大冒險", tabVocab: "交通詞彙牆", tabTime: "時間鐘點師", tabQuiz: "台語大檢定", tabStamps: "我的集章冊",
+        boothTitle: "售票亭 Ticket Booth", labelFrom: "起點站 From:", labelTo: "終點站 To:",
+        labelClass: "火車種類 Class:", labelPassengers: "張數 Tickets:", labelDepTime: "發車時間 Departure:",
+        infoDirection: "行車方向 Direction:", infoDuration: "乘車時間 Duration:",
+        infoCost: "總票價 Total Cost:", infoPlatform: "候車月台 Platform:",
+        btnPlayJourney: "播放台語購票語音", mapTitle: "環島鐵道路線圖 Map",
+        vocabTitle: "交通台語詞彙牆 Vocabulary", clockTitle: "撥撥看時鐘 Clock Trainer",
+        timeLearnTitle: "時間台語發音教室", labelAdjustTime: "微調時間 Adjust Time:", labelPresetTime: "常見火車發車時間 Presets:",
+        btnPlayClock: "播放台語時間發音", quizTitle: "台語大檢定 Challenge Mode",
+        quizWelcomeTitle: "準備接受台語大挑戰了嗎？",
+        quizWelcomeDesc: "我們提供兩大交通檢定關卡！點選按鈕後將隨機播放 10 題台語語音，在時限內選出正確答案。答對 8 題以上即可解鎖該城市的精美火車紀念印章喔！",
+        quizSellerName: "售票員聽力挑戰", quizTimeName: "發車時刻聽力挑戰",
+        btnRetry: "返回檢定選單", stampsTitle: "我的鐵道集章冊 Stamp Album",
+        stampsDesc: "在「台語大檢定」中答對 8 題以上即可隨機獲得一個城市的限定紀念章。收集越多，代表你已經搭著火車玩遍了全台灣！",
+        clockwise: "順時針方向 ➡️", counterclockwise: "逆時針方向 ⬅️", sameStation: "同站出發 🚉",
+        platformNum: "第 {0} 月台", ticketCount: "{0} 張", priceUnit: "{0} 元",
+        hours: "{0} 小時", mins: "{0} 分鐘", durationFormat: "{0}小時 {1}分鐘",
+        langBtnText: "Language: 台語"
+    },
+    EN: {
+        title: "Taiwan Railway Tour", subtitle: "歡喜學台語 / Fun Taiwanese Railway Adventure",
+        tabAdventure: "Ticket Adventure", tabVocab: "Vocab Wall", tabTime: "Time Trainer", tabQuiz: "Quiz Challenge", tabStamps: "Stamp Album",
+        boothTitle: "Ticket Booth", labelFrom: "Origin:", labelTo: "Destination:",
+        labelClass: "Train Class:", labelPassengers: "Tickets:", labelDepTime: "Departure Time:",
+        infoDirection: "Direction:", infoDuration: "Travel Duration:",
+        infoCost: "Total Fare:", infoPlatform: "Platform:",
+        btnPlayJourney: "Play Voice (Taiwanese)", mapTitle: "Railway Map",
+        vocabTitle: "Transport Vocab Wall", clockTitle: "Interactive Clock",
+        timeLearnTitle: "Time Pronunciation Class", labelAdjustTime: "Adjust Time:", labelPresetTime: "Train Departure Presets:",
+        btnPlayClock: "Play Clock Voice", quizTitle: "Taiwanese Quiz Challenge",
+        quizWelcomeTitle: "Ready for the Taiwanese Challenge?",
+        quizWelcomeDesc: "Choose a challenge! We have 2 listening quizzes. Listen to 10 Taiwanese audio clips and choose the correct answer under the timer. Score 8+ to unlock a beautiful commemorative train stamp!",
+        quizSellerName: "Ticket Seller Quiz", quizTimeName: "Departure Time Quiz",
+        btnRetry: "Back to Menu", stampsTitle: "My Stamp Album",
+        stampsDesc: "Score 8+ in any quiz challenge to collect a commemorative city station stamp. Collect them all to complete your island journey!",
+        clockwise: "Clockwise ➡️", counterclockwise: "Counter-Clockwise ⬅️", sameStation: "Same Station 🚉",
+        platformNum: "Platform {0}", ticketCount: "{0} Ticket(s)", priceUnit: "NT$ {0}",
+        hours: "{0} hr", mins: "{0} min", durationFormat: "{0}h {1}m",
+        langBtnText: "Language: English"
+    }
+};
+
+// ==========================================
+// 5. 狀態變數 (App State)
+// ==========================================
+let currentLang = "ZH";
+let passengers = 1;
+let selectedTab = "adventure";
+let clockHour = 15;
+let clockMinute = 30;
+let speechRate = 1.0;
+
+// Quiz State
+let quizType = "seller"; // 'seller' or 'time'
+let quizQuestions = [];
+let quizCurrentIndex = 0;
+let quizScore = 0;
+let quizTimeLeft = 20;
+let quizTimerInterval = null;
+let currentCorrectAnswer = null;
+let quizHasAnswered = false;
+
+// Audio States
+let activeAudio = null;
+let voiceEngineMode = "google"; // "google" or "local"
+
+// ==========================================
+// 6. 初始化 (On Load)
+// ==========================================
+window.onload = () => {
+    // 載入 localStorage 設定
+    if (localStorage.getItem("app_lang")) {
+        currentLang = localStorage.getItem("app_lang");
+    }
+    if (localStorage.getItem("app_theme") === "dark") {
+        document.documentElement.setAttribute("data-theme", "dark");
+        document.querySelector("#theme-toggle-btn i").className = "fa-solid fa-sun";
+    }
+    if (localStorage.getItem("app_speech_rate")) {
+        speechRate = parseFloat(localStorage.getItem("app_speech_rate"));
+        const rateSlider = document.getElementById("speech-rate");
+        if (rateSlider) {
+            rateSlider.value = speechRate;
+            document.getElementById("speech-rate-label").textContent = `${speechRate.toFixed(1)}x`;
+        }
+    }
+
+    populateDropdowns();
+    renderTaiwanMap();
+    renderVocabWall();
+    renderStampsAlbum();
+    updateClockHands();
+    updateClockReadout();
+    updateUI();
+    
+    // 初始化路程計算
+    calculateJourney();
+    
+    // 設置時鐘拖動事件 (Pointer Events)
+    setupClockDragging();
+    
+    // 動態綁定所有交互事件（解決 WordPress/Blogger 等平台的屬性過濾問題）
+    bindDynamicEvents();
+};
+
+// ==========================================
+// 7. 介面渲染與操作
+// ==========================================
+function populateDropdowns() {
+    const startSelect = document.getElementById("start-station");
+    const endSelect = document.getElementById("end-station");
+    
+    startSelect.innerHTML = "";
+    endSelect.innerHTML = "";
+
+    stations.forEach((station, idx) => {
+        let opt1 = document.createElement("option");
+        let opt2 = document.createElement("option");
+        opt1.value = opt2.value = station.id;
+        
+        const label = `${station.nameZH} (${station.poj} / ${station.nameEN})`;
+        opt1.textContent = opt2.textContent = label;
+        
+        startSelect.appendChild(opt1);
+        endSelect.appendChild(opt2);
+    });
+    
+    // 預設起點：台北，終點：高雄
+    startSelect.selectedIndex = 1; // Taipei
+    endSelect.selectedIndex = 9;   // Kaohsiung
+}
+
+// 渲染環島鐵路地圖 SVG
+function renderTaiwanMap() {
+    const railTrack = document.getElementById("svg-rail-track");
+    const railTrackDashed = document.getElementById("svg-rail-track-dashed");
+    const stationsGroup = document.getElementById("svg-stations-group");
+    
+    // 產生環島鐵路軌道路徑 (閉合環線 SVG Path)
+    let dPath = `M ${stations[0].cx} ${stations[0].cy}`;
+    for (let i = 1; i < stations.length; i++) {
+        dPath += ` L ${stations[i].cx} ${stations[i].cy}`;
+    }
+    dPath += " Z"; // 閉合回基隆
+    
+    railTrack.setAttribute("d", dPath);
+    railTrackDashed.setAttribute("d", dPath);
+    
+    // 清空站點 DOM 並重繪
+    stationsGroup.innerHTML = "";
+    stations.forEach(st => {
+        const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+        group.setAttribute("class", "station-point");
+        group.setAttribute("id", `svg-node-${st.id}`);
+        group.onclick = () => {
+            // 點選地圖站點直接播放該城市台語發音 (傳入 POJ 使其唸出完美台語)
+            playTaigiTTS(st.nameZH, st.poj);
+            highlightNode(st.id);
+        };
+        
+        // 畫小圓點
+        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
+        circle.setAttribute("cx", st.cx);
+        circle.setAttribute("cy", st.cy);
+        circle.setAttribute("r", "6");
+        
+        // 標記站名
+        const text = document.createElementNS("http://www.w3.org/2000/svg", "text");
+        text.setAttribute("x", st.cx + (st.cx > 150 ? 12 : -12));
+        text.setAttribute("y", st.cy + 4);
+        text.setAttribute("text-anchor", st.cx > 150 ? "start" : "end");
+        text.textContent = st.nameZH;
+        
+        group.appendChild(circle);
+        group.appendChild(text);
+        stationsGroup.appendChild(group);
+    });
+}
+
+function highlightNode(stationId) {
+    stations.forEach(st => {
+        const el = document.getElementById(`svg-node-${st.id}`);
+        if (el) el.classList.remove("active");
+    });
+    const activeEl = document.getElementById(`svg-node-${stationId}`);
+    if (activeEl) activeEl.classList.add("active");
+}
+
+// 渲染詞彙學堂
+function renderVocabWall() {
+    const vocabContainer = document.getElementById("vocab-container");
+    vocabContainer.innerHTML = "";
+    
+    vocabData.forEach(item => {
+        const card = document.createElement("div");
+        card.className = "vocab-card";
+        card.setAttribute("data-type", item.type);
+        card.onclick = () => playTaigiTTS(item.zh, item.tw);
+        
+        card.innerHTML = `
+            <span class="vocab-emoji">${item.emoji.split(' ')[1]}</span>
+            <div class="vocab-zh">${item.zh}</div>
+            <div class="vocab-pinyin">${item.tw}</div>
+            <div class="vocab-en">${item.en}</div>
+        `;
+        vocabContainer.appendChild(card);
+    });
+}
+
+function filterVocab(type) {
+    document.querySelectorAll(".filter-btn").forEach(btn => btn.classList.remove("active"));
+    
+    if (type === 'all') {
+        document.getElementById("btn-filter-all").classList.add("active");
+        document.querySelectorAll(".vocab-card").forEach(card => card.style.display = "block");
+    } else {
+        document.getElementById(`btn-filter-${type}`).classList.add("active");
+        document.querySelectorAll(".vocab-card").forEach(card => {
+            if (card.getAttribute("data-type") === type) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+    }
+}
+
+// 變更張數
+function changePassengers(amount) {
+    passengers += amount;
+    if (passengers < 1) passengers = 1;
+    if (passengers > 10) passengers = 10;
+    
+    document.getElementById("passenger-count").textContent = passengers;
+    calculateJourney();
+}
+
+// ==========================================
+// 8. 購票路程計算邏輯 (順逆時針環島計算)
+// ==========================================
+function calculateJourney() {
+    const startId = document.getElementById("start-station").value;
+    const endId = document.getElementById("end-station").value;
+    
+    const startIndex = stations.findIndex(s => s.id === startId);
+    const endIndex = stations.findIndex(s => s.id === endId);
+    
+    const startStation = stations[startIndex];
+    const endStation = stations[endIndex];
+    
+    // 地圖節點樣式重置
+    stations.forEach(s => {
+        const el = document.getElementById(`svg-node-${s.id}`);
+        if (el) el.classList.remove("active", "in-route");
+    });
+    
+    // 高亮起迄點
+    const startNode = document.getElementById(`svg-node-${startId}`);
+    const endNode = document.getElementById(`svg-node-${endId}`);
+    if (startNode) startNode.classList.add("active");
+    if (endNode) endNode.classList.add("active");
+
+    const t = uiStrings[currentLang];
+    
+    if (startId === endId) {
+        document.getElementById("info-direction").textContent = t.sameStation;
+        document.getElementById("info-duration").textContent = "0 mins";
+        document.getElementById("info-cost").textContent = "NT$ 0";
+        document.getElementById("info-platform").textContent = "-";
+        document.getElementById("play-journey-btn").disabled = true;
+        document.getElementById("journey-sentence-box").classList.remove("active");
+        
+        // 隱藏火車標誌
+        document.getElementById("train-marker").classList.remove("active");
+        
+        // 移除高亮路徑 SVG
+        document.getElementById("svg-rail-active-path").setAttribute("d", "");
+        return;
+    }
+    
+    // 計算雙向最短路徑
+    const n = stations.length;
+    
+    // 1. 順時針 (Clockwise)
+    let cwPath = [];
+    let cwDist = 0;
+    let currIdx = startIndex;
+    while (currIdx !== endIndex) {
+        let nextIdx = (currIdx + 1) % n;
+        let d = (stations[nextIdx].dist - stations[currIdx].dist + totalCircumference) % totalCircumference;
+        cwDist += d;
+        cwPath.push(stations[currIdx]);
+        currIdx = nextIdx;
+    }
+    cwPath.push(stations[endIndex]);
+    
+    // 2. 逆時針 (Counter-Clockwise)
+    let ccwPath = [];
+    let ccwDist = 0;
+    currIdx = startIndex;
+    while (currIdx !== endIndex) {
+        let prevIdx = (currIdx - 1 + n) % n;
+        let d = (stations[currIdx].dist - stations[prevIdx].dist + totalCircumference) % totalCircumference;
+        ccwDist += d;
+        ccwPath.push(stations[currIdx]);
+        currIdx = prevIdx;
+    }
+    ccwPath.push(stations[endIndex]);
+    
+    let chosenRoute = [];
+    let distance = 0;
+    let dirText = "";
+    
+    if (cwDist <= ccwDist) {
+        chosenRoute = cwPath;
+        distance = cwDist;
+        dirText = t.clockwise;
+    } else {
+        chosenRoute = ccwPath;
+        distance = ccwDist;
+        dirText = t.counterclockwise;
+    }
+    
+    // 高亮中途站點
+    for (let i = 1; i < chosenRoute.length - 1; i++) {
+        const midNode = document.getElementById(`svg-node-${chosenRoute[i].id}`);
+        if (midNode) midNode.classList.add("in-route");
+    }
+    
+    // 繪製高亮 SVG 軌道線
+    let activeD = `M ${chosenRoute[0].cx} ${chosenRoute[0].cy}`;
+    for (let i = 1; i < chosenRoute.length; i++) {
+        activeD += ` L ${chosenRoute[i].cx} ${chosenRoute[i].cy}`;
+    }
+    const activePath = document.getElementById("svg-rail-active-path");
+    activePath.setAttribute("d", "");
+    setTimeout(() => {
+        activePath.setAttribute("d", activeD);
+    }, 10);
+    
+    // 模擬計算車資與時間
+    const trainClass = document.getElementById("train-class").value;
+    const rate = trainClass === "express" ? 3.5 : 2.0;
+    const cost = Math.round(distance * rate * passengers);
+    
+    const speed = trainClass === "express" ? 1.5 : 1.0;
+    const durationMinutes = Math.round(distance / speed);
+    const durationHrs = Math.floor(durationMinutes / 60);
+    const durationMins = durationMinutes % 60;
+    
+    const platformNum = (startIndex % 4) + 1;
+    
+    // 更新網頁欄位
+    document.getElementById("info-direction").textContent = dirText;
+    
+    const durationStr = durationHrs > 0 
+        ? t.durationFormat.replace("{0}", durationHrs).replace("{1}", durationMins)
+        : t.mins.replace("{0}", durationMins);
+    document.getElementById("info-duration").textContent = durationStr;
+    document.getElementById("info-cost").textContent = t.priceUnit.replace("{0}", cost);
+    document.getElementById("info-platform").textContent = t.platformNum.replace("{0}", platformNum);
+    
+    document.getElementById("play-journey-btn").disabled = false;
+    
+    animateTrainOnMap(chosenRoute);
+}
+
+// 讓火車在 SVG 地圖上循序移動
+function animateTrainOnMap(route) {
+    const train = document.getElementById("train-marker");
+    train.classList.add("active");
+    
+    let currentStop = 0;
+    
+    function moveNext() {
+        if (currentStop >= route.length) return;
+        const targetSt = route[currentStop];
+        train.style.left = `${(targetSt.cx / 320) * 100}%`;
+        train.style.top = `${(targetSt.cy / 500) * 100}%`;
+        
+        currentStop++;
+        setTimeout(moveNext, 450);
+    }
+    
+    moveNext();
+}
+
+// ==========================================
+// 9. 語音朗讀合成模組 (Speech Synthesis)
+// ==========================================
+// Audio States
+let activeQueueAudio = null;
+
+const taigiAudioMap = {
+    // 站名
+    "基隆": "20752(1)",
+    "台北": "20637(1)",
+    "臺北": "20637(1)",
+    "桃園": "20643(1)",
+    "新竹": "20652(1)",
+    "苗栗": "20658(1)",
+    "台中": "20666(1)",
+    "臺中": "20666(1)",
+    "彰化": "20670(1)",
+    "嘉義": "20684(1)",
+    "台南": "20696(1)",
+    "臺南": "20696(1)",
+    "高雄": "20705(1)",
+    "屏東": "20731(1)",
+    "台東": "20818(1)",
+    "臺東": "20818(1)",
+    "花蓮": "20790(1)",
+    "宜蘭": "20770(1)",
+    
+    // 數字
+    "一_quantity": "1(1)", // tsi̍t (一張, 一箍)
+    "一_digit": "2(1)",    // it (第一, 十一)
+    "二": "44(1)",
+    "三": "163(1)",
+    "四": "1408(1)",
+    "五": "565(1)",
+    "六": "578(1)",
+    "七": "40(1)",
+    "八": "49(1)",
+    "九": "41(1)",
+    "十": "54(1)",
+    "兩": "3584(1)",      // nn̄g
+    "百": "2585(1)",      // pah
+    "千": "180(1)",       // tshian
+    
+    // 時間與單位
+    "早起": "2517(1)",
+    "下晡": "432(1)",
+    "暗時": "9598(1)",
+    "點": "12451(1)",
+    "半": "1387(1)",
+    "分": "584(1)",
+    "點鐘": "12472(1)",
+    "分鐘": "768(1)",
+    "箍": "10682(1)",     // 元
+    
+    // 詞彙
+    "火車": "1242(1)",
+    "捷運": "7397(1)",
+    "公車": "23445(1)",
+    "鐵馬": "13148(1)",
+    "船": "7784(1)",
+    "計程車": "5537(1)",
+    "高鐵": "24834(1)",
+    "月台": "24426(1)",
+    "火車頭": "13946(1)",
+    "車廂": "23725(1)",
+    "車票": "3459(1)",
+    "司機": "1608(1)",
+    "鐵路": "24177(1)",
+    "飛行機": "5591(1)",
+    "口": "183(1)",
+    "賣": "11390(1)",
+    "票": "7683(1)",
+    "自強": "2721(1)",
+    "號": "9978(1)",
+    "區間": "25732(1)",
+    "車": "3394(1)",
+    
+    // 銜接與文法
+    "我": "3139(1)",
+    "欲": "7469(1)",
+    "去": "1395(1)",
+    "買": "9037(1)",
+    "張": "7179(1)",
+    "開車": "9170(1)",
+    "攏總": "12790(1)",
+    "佇": "2858(1)",
+    "第": "7691(1)",
+    "第一": "7693(1)",
+    "等": "8817(1)",
+    
+    // 回饋
+    "著": "8981(1)",
+    "矣": "3336(1)",
+    "毋著": "1089(1)",
+    "喔": "8172(1)",
+    "對": "10442(1)",
+    "同": "2115(1)"
+};
+
+// 數字轉實體音檔陣列
+function numberToAudioSegments(num, isQuantity = false) {
+    let segments = [];
+    
+    // 千位
+    if (num >= 1000) {
+        const thousands = Math.floor(num / 1000);
+        if (thousands === 1) {
+            segments.push(taigiAudioMap["一_digit"]);
+        } else if (thousands === 2) {
+            segments.push(taigiAudioMap["兩"]);
+        } else {
+            segments.push(taigiAudioMap[numberToKanjiDigit(thousands)]);
+        }
+        segments.push(taigiAudioMap["千"]);
+        num %= 1000;
+    }
+    
+    // 百位
+    if (num >= 100) {
+        const h = Math.floor(num / 100);
+        if (h === 1) {
+            segments.push(taigiAudioMap["一_digit"]);
+        } else if (h === 2) {
+            segments.push(taigiAudioMap["兩"]);
+        } else {
+            segments.push(taigiAudioMap[numberToKanjiDigit(h)]);
+        }
+        segments.push(taigiAudioMap["百"]);
+        num %= 100;
+    }
+    
+    // 十位與個位
+    if (num > 0) {
+        if (num < 10) {
+            if (num === 2 && isQuantity) {
+                segments.push(taigiAudioMap["兩"]);
+            } else if (num === 1 && isQuantity) {
+                segments.push(taigiAudioMap["一_quantity"]);
+            } else {
+                segments.push(taigiAudioMap[numberToKanjiDigit(num)]);
+            }
+        } else if (num === 10) {
+            segments.push(taigiAudioMap["十"]);
+        } else if (num < 20) {
+            segments.push(taigiAudioMap["十"]);
+            segments.push(taigiAudioMap[numberToKanjiDigit(num % 10)]);
+        } else {
+            const tens = Math.floor(num / 10);
+            const units = num % 10;
+            segments.push(taigiAudioMap[numberToKanjiDigit(tens)]);
+            segments.push(taigiAudioMap["十"]);
+            if (units > 0) {
+                if (units === 1) {
+                    segments.push(taigiAudioMap["一_digit"]);
+                } else {
+                    segments.push(taigiAudioMap[numberToKanjiDigit(units)]);
+                }
+            }
+        }
+    }
+    
+    return segments;
+}
+
+function numberToKanjiDigit(digit) {
+    const map = {
+        1: "一_digit",
+        2: "二",
+        3: "三",
+        4: "四",
+        5: "五",
+        6: "六",
+        7: "七",
+        8: "八",
+        9: "九"
+    };
+    return map[digit] || "";
+}
+
+// 時間轉實體音檔陣列
+function timeToAudioSegments(timeStr) {
+    const parts = timeStr.split(":");
+    const hour = parseInt(parts[0]);
+    const min = parseInt(parts[1]);
+    
+    let segments = [];
+    
+    // 時間段
+    let periodKey = "早起";
+    let displayHour = hour;
+    if (hour >= 12 && hour < 18) {
+        periodKey = "下晡";
+        displayHour = hour === 12 ? 12 : hour - 12;
+    } else if (hour >= 18) {
+        periodKey = "暗時";
+        displayHour = hour === 12 ? 12 : hour - 12;
+    } else if (hour === 0) {
+        displayHour = 12;
+    }
+    
+    segments.push(taigiAudioMap[periodKey]);
+    
+    // 小時
+    if (displayHour === 2) {
+        segments.push(taigiAudioMap["兩"]);
+    } else {
+        segments.push(taigiAudioMap[numberToKanjiDigit(displayHour)]);
+    }
+    segments.push(taigiAudioMap["點"]);
+    
+    // 分鐘
+    if (min === 30) {
+        segments.push(taigiAudioMap["半"]);
+    } else if (min > 0) {
+        segments = segments.concat(numberToAudioSegments(min, false));
+        segments.push(taigiAudioMap["分"]);
+    }
+    
+    return segments;
+}
+
+// 音訊佇列非同步播放器
+let queueCancelToken = 0;
+function playAudioQueue(audioIds, fallbackText) {
+    queueCancelToken++;
+    const token = queueCancelToken;
+
+    if (activeAudio) { activeAudio.pause(); activeAudio = null; }
+    if (activeQueueAudio) { activeQueueAudio.pause(); activeQueueAudio = null; }
+    if ('speechSynthesis' in window) { window.speechSynthesis.cancel(); }
+
+    const speed = speechRate;
+    const cleanIds = audioIds.filter(id => id);
+    
+    if (cleanIds.length === 0) {
+        playOfflineVoiceFallback(fallbackText);
+        return;
+    }
+
+    updateBadge("google");
+    
+    let index = 0;
+    
+    function playNext() {
+        if (token !== queueCancelToken) return;
+        if (index >= cleanIds.length) return;
+        
+        const id = cleanIds[index];
+        const cdnUrl = `https://chhoetaigi.github.io/KipSutianDataMirror/public/20260503-2330/imtong/sutiau/${id}.mp3`;
+        
+        const audio = new Audio(cdnUrl);
+        activeQueueAudio = audio;
+        audio.playbackRate = speed;
+        
+        audio.onended = () => {
+            if (token !== queueCancelToken) return;
+            index++;
+            playNext();
+        };
+        
+        audio.onerror = (e) => {
+            console.warn(`Audio playback error for ID ${id}, fallback to Web Speech...`, e);
+            if (token !== queueCancelToken) return;
+            playOfflineVoiceFallback(fallbackText);
+        };
+        
+        audio.play().catch(err => {
+            console.warn(`Audio play failed for ID ${id}, fallback to Web Speech...`, err);
+            if (token !== queueCancelToken) return;
+            playOfflineVoiceFallback(fallbackText);
+        });
+    }
+    
+    playNext();
+}
+
+function playTaigiTTS(phraseText, audioIds) {
+    let ids = [];
+    if (Array.isArray(audioIds)) {
+        ids = audioIds;
+    } else if (typeof audioIds === 'string') {
+        const cleanPhrase = phraseText.replace(/[【】]/g, '');
+        if (cleanPhrase === "票口") {
+            ids = [taigiAudioMap["票"], taigiAudioMap["口"]];
+        } else if (cleanPhrase === "售票機") {
+            ids = [taigiAudioMap["賣"], taigiAudioMap["票"]];
+        } else if (cleanPhrase === "飛機") {
+            ids = [taigiAudioMap["飛行機"]];
+        } else if (cleanPhrase === "著矣") {
+            ids = [taigiAudioMap["著"], taigiAudioMap["矣"]];
+        } else if (cleanPhrase === "毋著喔") {
+            ids = [taigiAudioMap["毋著"], taigiAudioMap["喔"]];
+        } else {
+            const mappedId = taigiAudioMap[cleanPhrase];
+            if (mappedId) {
+                ids = [mappedId];
+            }
+        }
+    }
+    
+    if (ids.length > 0) {
+        playAudioQueue(ids, phraseText);
+    } else {
+        playOfflineVoiceFallback(phraseText);
+    }
+}
+
+function playOfflineVoiceFallback(text) {
+    if (!('speechSynthesis' in window)) return;
+    
+    updateBadge("local");
+    
+    // 同音字轉換
+    let phoneticText = text;
+    const sortedKeys = Object.keys(twHomophones).sort((a, b) => b.length - a.length);
+    sortedKeys.forEach(key => {
+        phoneticText = phoneticText.replace(new RegExp(key, 'g'), twHomophones[key]);
+    });
+    
+    console.log(`Speech synthesis translation: "${text}" -> "${phoneticText}"`);
+    
+    const utterance = new SpeechSynthesisUtterance(phoneticText);
+    utterance.lang = "zh-TW"; // 使用繁體中文引擎
+    utterance.rate = speechRate;
+    
+    const voices = window.speechSynthesis.getVoices();
+    const twVoice = voices.find(v => v.lang.includes("zh-TW"));
+    if (twVoice) utterance.voice = twVoice;
+    
+    window.speechSynthesis.speak(utterance);
+}
+
+function updateBadge(mode) {
+    const badge = document.getElementById("speech-engine-badge");
+    if (!badge) return;
+    if (mode === "google") {
+        badge.innerText = "🔊 實體台語 (教育部)";
+        badge.className = "speech-badge badge-google";
+    } else {
+        badge.innerText = "🔊 本地合成 (擬真備援)";
+        badge.className = "speech-badge badge-local";
+    }
+}
+
+// 數字台語讀音轉換庫
+const digitsZH = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+const digitsPOJ = ["lîng", "chi̍t", "jī/nn̄g", "sann", "sì", "gōo", "la̍k", "tshit", "peh", "káu", "tsa̍p"];
+
+// 將數字轉換成台語漢字字串
+function numberToTaigiText(num) {
+    if (num === 0) return "零";
+    if (num <= 10) return num === 2 ? "兩" : digitsZH[num];
+    if (num < 20) {
+        const units = num % 10;
+        return "十" + (units > 0 ? (units === 2 ? "二" : digitsZH[units]) : "");
+    }
+    const tens = Math.floor(num / 10);
+    const units = num % 10;
+    let result = (tens === 2 ? "兩" : digitsZH[tens]) + "十";
+    if (units > 0) {
+        result += (units === 2 ? "二" : digitsZH[units]);
+    }
+    return result;
+}
+
+// 將數字轉換成台羅拼音 (POJ)
+function numberToTaigiPOJ(num, isQuantity = false) {
+    const pojDigits = ["lîng", "chi̍t", "jī", "sann", "sì", "gōo", "la̍k", "tshit", "peh", "káu", "tsa̍p"];
+    if (num === 0) return "lîng";
+    if (num <= 10) {
+        if (num === 2 && isQuantity) return "nn̄g";
+        return pojDigits[num];
+    }
+    if (num < 20) {
+        const units = num % 10;
+        return "tsa̍p" + (units > 0 ? "-" + (units === 2 ? "jī" : pojDigits[units]) : "");
+    }
+    const tens = Math.floor(num / 10);
+    const units = num % 10;
+    let result = (tens === 2 ? "jī" : pojDigits[tens]) + "-tsa̍p";
+    if (units > 0) {
+        result += "-" + (units === 2 ? "jī" : pojDigits[units]);
+    }
+    return result;
+}
+
+// 序數第一到第十讀法 (例如月台、車廂)
+function ordinalToTaigiText(num) {
+    const digits = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九", "十"];
+    return "第" + digits[num];
+}
+
+// 價格台語漢字金額讀法
+function costToTaigiText(cost) {
+    if (cost === 0) return "零箍";
+    if (cost < 100) return numberToTaigiText(cost) + "箍";
+    
+    let result = "";
+    let tempCost = cost;
+    
+    if (tempCost >= 1000) {
+        const thousands = Math.floor(tempCost / 1000);
+        result += (thousands === 2 ? "兩" : digitsZH[thousands]) + "千";
+        tempCost = tempCost % 1000;
+        if (tempCost > 0 && tempCost < 100) {
+            result += "零";
+        }
+    }
+    if (tempCost >= 100) {
+        const hundreds = Math.floor(tempCost / 100);
+        result += (hundreds === 2 ? "兩" : digitsZH[hundreds]) + "百";
+        tempCost = tempCost % 100;
+        if (tempCost > 0 && tempCost < 10) {
+            result += "零";
+        }
+    }
+    if (tempCost > 0) {
+        result += numberToTaigiText(tempCost);
+    }
+    return result + "箍";
+}
+
+// 價格台羅拼音 (POJ) 金額讀法
+function costToTaigiPOJ(cost) {
+    if (cost === 0) return "lîng kho͘";
+    
+    const pojDigitsList = ["lîng", "chi̍t", "jī", "sann", "sì", "gōo", "la̍k", "tshit", "peh", "káu", "tsa̍p"];
+    
+    let parts = [];
+    let tempCost = cost;
+    
+    if (tempCost >= 1000) {
+        const thousands = Math.floor(tempCost / 1000);
+        const prefix = thousands === 2 ? "nn̄g" : pojDigitsList[thousands];
+        parts.push(prefix + " tsian");
+        tempCost = tempCost % 1000;
+        if (tempCost > 0 && tempCost < 100) {
+            parts.push("lîng");
+        }
+    }
+    
+    if (tempCost >= 100) {
+        const hundreds = Math.floor(tempCost / 100);
+        const prefix = hundreds === 2 ? "nn̄g" : pojDigitsList[hundreds];
+        parts.push(prefix + " pah");
+        tempCost = tempCost % 100;
+        if (tempCost > 0 && tempCost < 10) {
+            parts.push("lîng");
+        }
+    }
+    
+    if (tempCost > 0) {
+        parts.push(numberToTaigiPOJ(tempCost, false)); // 幾十元用 jī-tsa̍p
+    }
+    
+    return parts.join(" ") + " kho͘";
+}
+
+// 播放購票語音句型
+function playFullJourneyAudio() {
+    const startId = document.getElementById("start-station").value;
+    const endId = document.getElementById("end-station").value;
+    const trainClass = document.getElementById("train-class").value;
+    const depTimeSelect = document.getElementById("departure-time");
+    const depTimeText = depTimeSelect.options[depTimeSelect.selectedIndex].text;
+    
+    const startStation = stations.find(s => s.id === startId);
+    const endStation = stations.find(s => s.id === endId);
+    
+    // 計算票價
+    const distance = getDistanceBetween(startId, endId);
+    const rate = trainClass === "express" ? 3.5 : 2.0;
+    const cost = Math.round(distance * rate * passengers);
+    const platform = (stations.findIndex(s => s.id === startId) % 4) + 1;
+    
+    // 1. 台語漢字文稿 (用於展示)
+    const trainClassZH = trainClass === "express" ? "自強號" : "區間車";
+    const passengerZH = numberToTaigiText(passengers) + "張";
+    const costZH = costToTaigiText(cost); // xxx箍
+    
+    const rawTimeZH = depTimeText.split(" ")[0]; // 早上/下午/晚上
+    let periodZH = "早起";
+    if (rawTimeZH === "下午") periodZH = "下晡";
+    else if (rawTimeZH === "晚上") periodZH = "暗時";
+    
+    const hourMin = depTimeSelect.value.split(":");
+    const h = parseInt(hourMin[0]);
+    const displayH = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+    const hourZH = (displayH === 2 ? "兩" : numberToTaigiText(displayH)) + "點";
+    const minZH = hourMin[1] === "30" ? "半" : (hourMin[1] === "00" ? "" : numberToTaigiText(parseInt(hourMin[1])) + "分");
+    
+    const endName = endStation.nameZH === "台北" ? "臺北" : (endStation.nameZH === "台中" ? "臺中" : (endStation.nameZH === "台南" ? "臺南" : (endStation.nameZH === "台東" ? "臺東" : endStation.nameZH)));
+    const taigiSpeechText = `我欲去${endName}，買${passengerZH}${trainClassZH}票，${periodZH}${hourZH}${minZH}開車，攏總${costZH}。佇${ordinalToTaigiText(platform)}月台等車。`;
+    
+    // 2. 產出純台語音軌 ID 陣列
+    let audioSegments = [];
+    audioSegments.push(taigiAudioMap["我"]);
+    audioSegments.push(taigiAudioMap["欲"]);
+    audioSegments.push(taigiAudioMap["去"]);
+    
+    // 車站名在字典中常為繁體「臺」
+    const endStationAudio = taigiAudioMap[endName];
+    if (endStationAudio) audioSegments.push(endStationAudio);
+    
+    audioSegments.push(taigiAudioMap["買"]);
+    audioSegments = audioSegments.concat(numberToAudioSegments(passengers, true));
+    audioSegments.push(taigiAudioMap["張"]);
+    
+    if (trainClass === "express") {
+        audioSegments.push(taigiAudioMap["自強"]);
+        audioSegments.push(taigiAudioMap["號"]);
+    } else {
+        audioSegments.push(taigiAudioMap["區間"]);
+        audioSegments.push(taigiAudioMap["車"]);
+    }
+    audioSegments.push(taigiAudioMap["票"]);
+    
+    // 時間處理
+    const m = parseInt(hourMin[1]);
+    let periodHour = h;
+    let periodKey = "早起";
+    if (h >= 12 && h < 18) {
+        periodKey = "下晡";
+        periodHour = h === 12 ? 12 : h - 12;
+    } else if (h >= 18) {
+        periodKey = "暗時";
+        periodHour = h === 12 ? 12 : h - 12;
+    } else if (h === 0) {
+        periodHour = 12;
+    }
+    audioSegments.push(taigiAudioMap[periodKey]);
+    
+    if (periodHour === 2) {
+        audioSegments.push(taigiAudioMap["兩"]);
+    } else {
+        audioSegments.push(taigiAudioMap[numberToKanjiDigit(periodHour)]);
+    }
+    audioSegments.push(taigiAudioMap["點"]);
+    
+    if (m === 30) {
+        audioSegments.push(taigiAudioMap["半"]);
+    } else if (m > 0) {
+        audioSegments = audioSegments.concat(numberToAudioSegments(m, false));
+        audioSegments.push(taigiAudioMap["分"]);
+    }
+    
+    audioSegments.push(taigiAudioMap["開車"]);
+    audioSegments.push(taigiAudioMap["攏總"]);
+    audioSegments = audioSegments.concat(numberToAudioSegments(cost, false));
+    audioSegments.push(taigiAudioMap["箍"]);
+    
+    audioSegments.push(taigiAudioMap["佇"]);
+    audioSegments.push(taigiAudioMap["第"]);
+    audioSegments.push(taigiAudioMap[numberToKanjiDigit(platform)]);
+    audioSegments.push(taigiAudioMap["月台"]);
+    audioSegments.push(taigiAudioMap["等"]);
+    audioSegments.push(taigiAudioMap["車"]);
+    
+    // 字幕對照台羅
+    const trainClassPOJ = trainClass === "express" ? "tsū-kiông-hō" : "khu-kan-chhia";
+    const passengerPOJ = getPassengerPOJ(passengers);
+    const hStr = h > 12 ? h - 12 : (h === 0 ? 12 : h);
+    const periodPOJ = h < 12 ? "tsá-khí" : (h < 18 ? "ē-po͘" : "am-sî");
+    const hourPOJStr = hStr === 2 ? "nn̄g tiám" : numberToTaigiPOJ(hStr) + " tiám";
+    const minPOJStr = m === 30 ? " puàn" : (m === 0 ? "" : " " + numberToTaigiPOJ(m) + " hun");
+    const pinyinBreakdown = `Ùi ${startStation.poj} kàu ${endStation.poj}, ${trainClassPOJ} ${passengerPOJ} phiò, ${periodPOJ} ${hourPOJStr}${minPOJStr} khui-chhia, lóng-chóng ${cost} khōo. tī tē-${platform} gue̍h-tâi.`;
+    const mandarinZHText = `從 ${startStation.nameZH} 到 ${endStation.nameZH}，${trainClassZH}票 ${passengers} 張，${depTimeSelect.options[depTimeSelect.selectedIndex].text.split(' ')[0]} ${depTimeSelect.value} 開車，總共 ${cost} 元。請到第 ${platform} 月台候車。`;
+    
+    // 顯示字幕框
+    const sentenceBox = document.getElementById("journey-sentence-box");
+    document.getElementById("journey-sentence-zh").textContent = mandarinZHText;
+    document.getElementById("journey-sentence-tw").textContent = taigiSpeechText + " \n(" + pinyinBreakdown + ")";
+    sentenceBox.classList.add("active");
+    
+    // 播放語音：傳送音標陣列以取得 100% 精準台語
+    playTaigiTTS(taigiSpeechText, audioSegments);
+}
+
+function getDistanceBetween(startId, endId) {
+    const startIndex = stations.findIndex(s => s.id === startId);
+    const endIndex = stations.findIndex(s => s.id === endId);
+    if (startIndex === endIndex) return 0;
+    
+    const n = stations.length;
+    let cwDist = 0;
+    let curr = startIndex;
+    while (curr !== endIndex) {
+        let next = (curr + 1) % n;
+        cwDist += (stations[next].dist - stations[curr].dist + totalCircumference) % totalCircumference;
+        curr = next;
+    }
+    
+    let ccwDist = totalCircumference - cwDist;
+    return Math.min(cwDist, ccwDist);
+}
+
+function getPassengerPOJ(num) {
+    const map = {
+        1: "chi̍t tiunn", 2: "nn̄g tiunn", 3: "sann tiunn", 4: "sì tiunn", 5: "gōo tiunn",
+        6: "la̍k tiunn", 7: "tshit tiunn", 8: "peh tiunn", 9: "káu tiunn", 10: "tsa̍p tiunn"
+    };
+    return map[num] || "";
+}
+
+function getTimePOJ(timeStr) {
+    const parts = timeStr.split(":");
+    const h = parseInt(parts[0]);
+    const m = parts[1];
+    let period = h < 12 ? "tsá-khí" : (h < 18 ? "ē-po͘" : "am-sî");
+    let hourPoj = (h > 12 ? h - 12 : (h === 0 ? 12 : h)) === 2 ? "nn̄g tiám" : numberToTaigiPOJ(h > 12 ? h - 12 : (h === 0 ? 12 : h)) + " tiám";
+    let minPoj = m === "30" ? " puàn" : (m === "00" ? "" : " " + numberToTaigiPOJ(parseInt(m)) + " hun");
+    return `${period} ${hourPoj}${minPoj}`;
+}
+
+// ==========================================
+// 10. 互動式時鐘與時間調整
+// ==========================================
+function setupClockDragging() {
+    const clock = document.getElementById("interactive-clock");
+    let isDragging = false;
+    
+    function handlePointer(e) {
+        if (!isDragging && e.type === "pointermove") return;
+        
+        const rect = clock.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2;
+        const centerY = rect.top + rect.height / 2;
+        
+        const dx = e.clientX - centerX;
+        const dy = e.clientY - centerY;
+        
+        let angleRad = Math.atan2(dy, dx);
+        let angleDeg = angleRad * (180 / Math.PI) + 90;
+        if (angleDeg < 0) angleDeg += 360;
+        
+        let mins = Math.round(angleDeg / 6) % 60;
+        mins = Math.round(mins / 5) * 5 % 60;
+        
+        clockMinute = mins;
+        
+        updateClockHands();
+        updateClockReadout();
+    }
+    
+    clock.addEventListener("pointerdown", (e) => {
+        isDragging = true;
+        clock.setPointerCapture(e.pointerId);
+        handlePointer(e);
+    });
+    
+    clock.addEventListener("pointermove", handlePointer);
+    
+    const stopDrag = (e) => {
+        isDragging = false;
+    };
+    
+    clock.addEventListener("pointerup", stopDrag);
+    clock.addEventListener("pointercancel", stopDrag);
+}
+
+function updateClockHands() {
+    const hourHand = document.getElementById("clock-hour-hand");
+    const minHand = document.getElementById("clock-min-hand");
+    
+    const minAngle = clockMinute * 6;
+    const hourAngle = ((clockHour % 12) * 30) + (clockMinute * 0.5);
+    
+    hourHand.style.transform = `translateX(-50%) rotate(${hourAngle}deg)`;
+    minHand.style.transform = `translateX(-50%) rotate(${minAngle}deg)`;
+}
+
+// 更新時鐘數位跟台語文字顯示
+function updateClockReadout() {
+    const formattedTime = `${clockHour.toString().padStart(2, '0')}:${clockMinute.toString().padStart(2, '0')}`;
+    document.getElementById("clock-time-digital").textContent = formattedTime;
+    
+    // 台語口語時間轉換 (早起、下晡、暗時)
+    const period = clockHour < 12 ? "早起" : (clockHour < 18 ? "下晡" : "暗時");
+    const periodEN = clockHour < 12 ? "tsán-khí" : (clockHour < 18 ? "ē-po͘" : "am-sî");
+    
+    const displayHour = clockHour > 12 ? clockHour - 12 : (clockHour === 0 ? 12 : clockHour);
+    const hourText = displayHour === 2 ? "兩點" : numberToTaigiText(displayHour) + "點";
+    const hourPOJ = (displayHour === 2 ? "nn̄g" : digitsPOJ[displayHour]) + " tiám";
+    
+    let minText = "";
+    let minPOJ = "";
+    if (clockMinute === 30) {
+        minText = "半";
+        minPOJ = " puàn";
+    } else if (clockMinute > 0) {
+        minText = numberToTaigiText(clockMinute) + "分";
+        minPOJ = " " + getMinutePOJ(clockMinute) + " hun";
+    }
+    
+    const twReadout = `${period}${hourText}${minText}`;
+    const twPinyin = `${periodEN} ${hourPOJ}${minPOJ}`;
+    
+    document.getElementById("clock-time-tw").innerHTML = `${twReadout}<br><small>${twPinyin}</small>`;
+}
+
+function getMinutePOJ(min) {
+    if (min === 15) return "tsa̍p-gōo";
+    if (min === 45) return "sì-tsa̍p-gōo";
+    return min.toString();
+}
+
+function adjustClockTime(amount) {
+    let totalMins = clockHour * 60 + clockMinute + amount;
+    if (totalMins < 0) totalMins += 24 * 60;
+    totalMins = totalMins % (24 * 60);
+    
+    clockHour = Math.floor(totalMins / 60);
+    clockMinute = totalMins % 60;
+    
+    updateClockHands();
+    updateClockReadout();
+}
+
+function setClockTime(h, m) {
+    clockHour = h;
+    clockMinute = m;
+    updateClockHands();
+    updateClockReadout();
+    
+    const clock = document.getElementById("interactive-clock");
+    clock.classList.add("bounce-effect");
+    setTimeout(() => clock.classList.remove("bounce-effect"), 600);
+}
+
+function playClockAudio() {
+    const timeStr = `${clockHour.toString().padStart(2, '0')}:${clockMinute.toString().padStart(2, '0')}`;
+    const timeSegments = timeToAudioSegments(timeStr);
+    
+    const period = clockHour < 12 ? "早起" : (clockHour < 18 ? "下晡" : "暗時");
+    const displayHour = clockHour > 12 ? clockHour - 12 : (clockHour === 0 ? 12 : clockHour);
+    
+    const hourText = displayHour === 2 ? "兩點" : numberToTaigiText(displayHour) + "點";
+    let minText = "";
+    if (clockMinute === 30) {
+        minText = "半";
+    } else if (clockMinute > 0) {
+        minText = numberToTaigiText(clockMinute) + "分";
+    }
+    const text = period + hourText + minText;
+    
+    playTaigiTTS(text, timeSegments);
+}
+
+// ==========================================
+// 11. 檢定挑戰模式 (Quiz Engine)
+// ==========================================
+function startQuiz(type) {
+    quizType = type;
+    quizScore = 0;
+    quizCurrentIndex = 0;
+    quizQuestions = [];
+    
+    document.getElementById("quiz-welcome-panel").style.display = "none";
+    document.getElementById("quiz-result-panel").style.display = "none";
+    document.getElementById("quiz-game-panel").classList.add("active");
+    
+    generateQuizPool();
+    loadQuizQuestion();
+}
+
+function generateQuizPool() {
+    for (let i = 0; i < 10; i++) {
+        if (quizType === "seller") {
+            const randomStation = stations[Math.floor(Math.random() * stations.length)];
+            const randomTickets = Math.floor(Math.random() * 5) + 1; // 1~5張
+            
+            const speechText = `我想欲去${randomStation.nameZH}，買${numberToTaigiText(randomTickets)}張票。`;
+            const questionPrompt = "請問語音中，旅客想欲去叨位？買幾張車票？";
+            
+            // 實體台語音標拼接
+            let audioSegments = [];
+            audioSegments.push(taigiAudioMap["我"]);
+            audioSegments.push(taigiAudioMap["欲"]);
+            audioSegments.push(taigiAudioMap["去"]);
+            
+            const stName = randomStation.nameZH === "台北" ? "臺北" : (randomStation.nameZH === "台中" ? "臺中" : (randomStation.nameZH === "台南" ? "臺南" : (randomStation.nameZH === "台東" ? "臺東" : randomStation.nameZH)));
+            const stationAudio = taigiAudioMap[stName];
+            if (stationAudio) audioSegments.push(stationAudio);
+            
+            audioSegments.push(taigiAudioMap["買"]);
+            audioSegments = audioSegments.concat(numberToAudioSegments(randomTickets, true));
+            audioSegments.push(taigiAudioMap["張"]);
+            audioSegments.push(taigiAudioMap["票"]);
+            
+            const correctAnswer = `${randomStation.nameZH}，${randomTickets}張票`;
+            
+            let options = [correctAnswer];
+            while (options.length < 4) {
+                const altStation = stations[Math.floor(Math.random() * stations.length)];
+                const altTickets = Math.floor(Math.random() * 5) + 1;
+                const altOption = `${altStation.nameZH}，${altTickets}張票`;
+                if (!options.includes(altOption)) {
+                    options.push(altOption);
+                }
+            }
+            options.sort(() => Math.random() - 0.5);
+            
+            quizQuestions.push({
+                speech: speechText,
+                speechPOJ: audioSegments, // 儲存音標陣列以播放實體台語
+                prompt: questionPrompt,
+                options: options,
+                answer: correctAnswer,
+                cityId: randomStation.id
+            });
+            
+        } else {
+            const randomHour = Math.floor(Math.random() * 12) + 1; // 1~12點
+            const minsPresets = [0, 15, 30, 45];
+            const randomMin = minsPresets[Math.floor(Math.random() * minsPresets.length)];
+            const period = Math.random() > 0.5 ? "下晡" : "早起";
+            
+            const hourText = randomHour === 2 ? "兩點" : numberToTaigiText(randomHour) + "點";
+            const minText = randomMin === 30 ? "半" : (randomMin === 0 ? "" : numberToTaigiText(randomMin) + "分");
+            
+            const speechText = `火車${period}${hourText}${minText}開車。`;
+            const questionPrompt = "請問語音中，火車是幾點開車？";
+            
+            // 實體台語音標拼接
+            let audioSegments = [];
+            audioSegments.push(taigiAudioMap["火車"]);
+            
+            let h = randomHour;
+            if (period === "下晡") {
+                h = randomHour === 12 ? 12 : randomHour + 12;
+            } else if (period === "早起") {
+                h = randomHour === 12 ? 0 : randomHour;
+            }
+            
+            const timeSegments = timeToAudioSegments(`${h.toString().padStart(2, '0')}:${randomMin.toString().padStart(2, '0')}`);
+            audioSegments = audioSegments.concat(timeSegments);
+            audioSegments.push(taigiAudioMap["開車"]);
+            
+            const digitalTime = `${period} ${randomHour.toString().padStart(2, '0')}:${randomMin.toString().padStart(2, '0')}`;
+            const correctAnswer = digitalTime;
+            
+            let options = [correctAnswer];
+            while (options.length < 4) {
+                const altHour = Math.floor(Math.random() * 12) + 1;
+                const altMin = minsPresets[Math.floor(Math.random() * minsPresets.length)];
+                const altPeriod = Math.random() > 0.5 ? "下晡" : "早起";
+                const altOption = `${altPeriod} ${altHour.toString().padStart(2, '0')}:${altMin.toString().padStart(2, '0')}`;
+                if (!options.includes(altOption)) {
+                    options.push(altOption);
+                }
+            }
+            options.sort(() => Math.random() - 0.5);
+            
+            const rewardStation = stations[Math.floor(Math.random() * stations.length)];
+            
+            quizQuestions.push({
+                speech: speechText,
+                speechPOJ: audioSegments, // 儲存音標陣列以播放實體台語
+                prompt: questionPrompt,
+                options: options,
+                answer: correctAnswer,
+                cityId: rewardStation.id
+            });
+        }
+    }
+}
+
+function loadQuizQuestion() {
+    quizHasAnswered = false;
+    document.getElementById("quiz-feedback-text").textContent = "";
+    document.getElementById("quiz-feedback-text").className = "quiz-feedback";
+    
+    const q = quizQuestions[quizCurrentIndex];
+    currentCorrectAnswer = q.answer;
+    
+    document.getElementById("quiz-progress-text").textContent = `問題 ${quizCurrentIndex + 1} / 10`;
+    document.getElementById("quiz-question-prompt").textContent = q.prompt;
+    
+    const container = document.getElementById("quiz-options-container");
+    container.innerHTML = "";
+    
+    q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-btn";
+        btn.textContent = opt;
+        btn.onclick = () => submitQuizAnswer(opt, btn);
+        container.appendChild(btn);
+    });
+    
+    setTimeout(() => {
+        playTaigiTTS(q.speech, q.speechPOJ);
+    }, 400);
+    
+    quizTimeLeft = 20;
+    document.getElementById("quiz-timer-display").innerHTML = `<i class="fa-solid fa-hourglass-half animate-pulse"></i> 剩餘: ${quizTimeLeft}s`;
+    
+    const bar = document.getElementById("quiz-timer-bar");
+    bar.style.transition = "none";
+    bar.style.width = "100%";
+    
+    clearInterval(quizTimerInterval);
+    setTimeout(() => {
+        bar.style.transition = "width 20s linear";
+        bar.style.width = "0%";
+    }, 50);
+    
+    quizTimerInterval = setInterval(() => {
+        quizTimeLeft--;
+        document.getElementById("quiz-timer-display").innerHTML = `<i class="fa-solid fa-hourglass-half"></i> 剩餘: ${quizTimeLeft}s`;
+        
+        if (quizTimeLeft <= 0) {
+            clearInterval(quizTimerInterval);
+            handleQuizTimeout();
+        }
+    }, 1000);
+}
+
+function playQuizQuestionAudio() {
+    if (quizQuestions[quizCurrentIndex]) {
+        playTaigiTTS(quizQuestions[quizCurrentIndex].speech, quizQuestions[quizCurrentIndex].speechPOJ);
+    }
+}
+
+function submitQuizAnswer(selectedOpt, selectedBtn) {
+    if (quizHasAnswered) return;
+    quizHasAnswered = true;
+    clearInterval(quizTimerInterval);
+    
+    const bar = document.getElementById("quiz-timer-bar");
+    const computedWidth = window.getComputedStyle(bar).width;
+    bar.style.transition = "none";
+    bar.style.width = computedWidth;
+    
+    document.querySelectorAll(".option-btn").forEach(btn => btn.disabled = true);
+    
+    const feedback = document.getElementById("quiz-feedback-text");
+    const gameCard = document.getElementById("panel-quiz");
+    
+    if (selectedOpt === currentCorrectAnswer) {
+        quizScore++;
+        feedback.textContent = "👍 讚喔！答對矣！ (Tio̍h ah!)";
+        feedback.className = "quiz-feedback success";
+        selectedBtn.classList.add("correct");
+        
+        gameCard.classList.add("bounce-effect");
+        setTimeout(() => gameCard.classList.remove("bounce-effect"), 600);
+        triggerConfettiParticles();
+        
+        playTaigiTTS("著矣", "tio̍h-ah");
+    } else {
+        feedback.textContent = "❌ 毋對喔！加油！ (M̄-tio̍h--ooh!)";
+        feedback.className = "quiz-feedback error";
+        selectedBtn.classList.add("wrong");
+        
+        document.querySelectorAll(".option-btn").forEach(btn => {
+            if (btn.textContent === currentCorrectAnswer) {
+                btn.classList.add("correct");
+            }
+        });
+        
+        gameCard.classList.add("shake");
+        setTimeout(() => gameCard.classList.remove("shake"), 500);
+        
+        playTaigiTTS("毋著喔", "m̄-tio̍h-ooh");
+    }
+    
+    document.getElementById("quiz-score-display").innerHTML = `<i class="fa-solid fa-star" style="color: var(--accent);"></i> 分數: ${quizScore}`;
+    setTimeout(nextQuizQuestion, 1800);
+}
+
+function handleQuizTimeout() {
+    if (quizHasAnswered) return;
+    quizHasAnswered = true;
+    
+    document.querySelectorAll(".option-btn").forEach(btn => {
+        btn.disabled = true;
+        if (btn.textContent === currentCorrectAnswer) {
+            btn.classList.add("correct");
+        }
+    });
+    
+    const feedback = document.getElementById("quiz-feedback-text");
+    feedback.textContent = "⏰ 時間到！毋對喔！";
+    feedback.className = "quiz-feedback error";
+    
+    playTaigiTTS("毋著喔", "m̄-tio̍h-ooh");
+    setTimeout(nextQuizQuestion, 1800);
+}
+
+function nextQuizQuestion() {
+    quizCurrentIndex++;
+    if (quizCurrentIndex < 10) {
+        loadQuizQuestion();
+    } else {
+        showQuizResults();
+    }
+}
+
+function showQuizResults() {
+    document.getElementById("quiz-game-panel").classList.remove("active");
+    document.getElementById("quiz-result-panel").style.display = "block";
+    
+    document.getElementById("quiz-result-score").textContent = `您的最終得分：${quizScore} / 10 題`;
+    
+    const rewardsBox = document.getElementById("quiz-rewards-box");
+    const stampDisplay = document.getElementById("quiz-unlocked-stamp-display");
+    
+    if (quizScore >= 8) {
+        rewardsBox.style.display = "block";
+        
+        let unlockedStamps = JSON.parse(localStorage.getItem("rail_stamps")) || [];
+        const lockedStations = stations.filter(st => !unlockedStamps.includes(st.id));
+        
+        let newStampStation = null;
+        if (lockedStations.length > 0) {
+            newStampStation = lockedStations[Math.floor(Math.random() * lockedStations.length)];
+            unlockedStamps.push(newStampStation.id);
+            localStorage.setItem("rail_stamps", JSON.stringify(unlockedStamps));
+        } else {
+            newStampStation = stations[Math.floor(Math.random() * stations.length)];
+        }
+        
+        stampDisplay.innerHTML = `
+            <div class="stamp-item unlocked">
+                <span class="stamp-icon">${newStampStation.stamp}</span>
+                <span class="stamp-name">${newStampStation.nameZH}站</span>
+                <span class="stamp-city-zh">${newStampStation.nameEN}</span>
+            </div>
+            <p style="font-weight:700; color:var(--text); margin-top:10px;">恭喜解鎖【${newStampStation.nameZH}站】紀念印章！已加入您的集章冊！</p>
+        `;
+        
+        triggerConfettiParticles();
+        renderStampsAlbum();
+    } else {
+        rewardsBox.style.display = "none";
+        stampDisplay.innerHTML = "";
+        
+        const failText = document.createElement("p");
+        failText.style.margin = "20px 0";
+        failText.style.color = "var(--text-light)";
+        failText.style.fontWeight = "700";
+        failText.textContent = "💡 還差一點點！需要答對 8 題以上才能解鎖印章喔，再接再厲！";
+        
+        rewardsBox.parentNode.insertBefore(failText, rewardsBox);
+    }
+}
+
+function resetQuizInterface() {
+    clearInterval(quizTimerInterval);
+    document.getElementById("quiz-result-panel").style.display = "none";
+    document.getElementById("quiz-game-panel").classList.remove("active");
+    document.getElementById("quiz-welcome-panel").style.display = "block";
+    
+    const siblings = document.getElementById("quiz-result-panel").childNodes;
+    for (let i = siblings.length - 1; i >= 0; i--) {
+        if (siblings[i] && siblings[i].tagName === "P" && siblings[i].textContent.includes("還差一點點")) {
+            siblings[i].remove();
+        }
+    }
+}
+
+// ==========================================
+// 12. 紀念章集章冊展示
+// ==========================================
+function renderStampsAlbum() {
+    const container = document.getElementById("stamps-container");
+    container.innerHTML = "";
+    
+    const unlockedStamps = JSON.parse(localStorage.getItem("rail_stamps")) || [];
+    
+    stations.forEach(st => {
+        const isUnlocked = unlockedStamps.includes(st.id);
+        
+        const stampEl = document.createElement("div");
+        stampEl.className = `stamp-item ${isUnlocked ? 'unlocked' : 'locked'}`;
+        stampEl.title = isUnlocked ? `點擊聆聽【${st.nameZH}】台語發音` : "尚未解鎖";
+        
+        stampEl.onclick = () => {
+            if (isUnlocked) {
+                // 傳入 POJ 發音
+                playTaigiTTS(st.nameZH, st.poj);
+                stampEl.classList.add("bounce-effect");
+                setTimeout(() => stampEl.classList.remove("bounce-effect"), 600);
+            }
+        };
+        
+        stampEl.innerHTML = `
+            <span class="stamp-icon">${isUnlocked ? st.stamp : "🔒"}</span>
+            <span class="stamp-name">${st.nameZH}站</span>
+            <span class="stamp-city-zh">${st.nameEN}</span>
+        `;
+        
+        container.appendChild(stampEl);
+    });
+}
+
+// ==========================================
+// 13. 微互動粒子效果 (Confetti Particles)
+// ==========================================
+function triggerConfettiParticles() {
+    const mainElement = document.querySelector("main");
+    
+    for (let i = 0; i < 40; i++) {
+        const particle = document.createElement("div");
+        particle.className = "confetti-particle";
+        particle.style.left = `${Math.random() * 100}%`;
+        particle.style.bottom = "10%";
+        particle.style.backgroundColor = `hsl(${Math.random() * 360}, 90%, 60%)`;
+        particle.style.setProperty("--x", `${(Math.random() - 0.5) * 300}px`);
+        particle.style.setProperty("--rot", `${Math.random() * 360}deg`);
+        
+        mainElement.appendChild(particle);
+        setTimeout(() => particle.remove(), 1200);
+    }
+}
+
+// ==========================================
+// 14. 系統主題與語系切換
+// ==========================================
+function toggleTheme() {
+    const currentTheme = document.documentElement.getAttribute("data-theme");
+    const targetTheme = currentTheme === "dark" ? "light" : "dark";
+    
+    document.documentElement.setAttribute("data-theme", targetTheme);
+    localStorage.setItem("app_theme", targetTheme);
+    
+    const icon = document.querySelector("#theme-toggle-btn i");
+    icon.className = targetTheme === "dark" ? "fa-solid fa-sun" : "fa-solid fa-moon";
+}
+
+function toggleLanguage() {
+    currentLang = currentLang === "ZH" ? "EN" : "ZH";
+    localStorage.setItem("app_lang", currentLang);
+    
+    updateUI();
+    calculateJourney();
+    updateClockReadout();
+}
+
+function updateSpeechRate(val) {
+    speechRate = parseFloat(val);
+    localStorage.setItem("app_speech_rate", speechRate);
+    updateSpeechRateLabel(val);
+}
+
+function updateSpeechRateLabel(val) {
+    const label = document.getElementById("speech-rate-label");
+    if (label) {
+        label.textContent = `${parseFloat(val).toFixed(1)}x`;
+    }
+}
+
+function switchTab(tabId) {
+    selectedTab = tabId;
+    
+    document.querySelectorAll(".tab-trigger").forEach(btn => btn.classList.remove("active"));
+    document.getElementById(`tab-${tabId}-btn`).classList.add("active");
+    
+    document.querySelectorAll(".tab-panel").forEach(panel => panel.classList.remove("active"));
+    document.getElementById(`panel-${tabId}`).classList.add("active");
+    
+    if (tabId === "stamps") {
+        renderStampsAlbum();
+    }
+}
+
+function updateUI() {
+    const t = uiStrings[currentLang];
+    
+    document.getElementById("ui-title").innerHTML = `<i class="fa-solid fa-train-subway"></i> ${t.title}`;
+    document.getElementById("ui-subtitle").textContent = t.subtitle;
+    document.getElementById("lang-toggle-text").textContent = t.langBtnText;
+    
+    document.getElementById("ui-tab-adventure").textContent = t.tabAdventure;
+    document.getElementById("ui-tab-vocab").textContent = t.tabVocab;
+    document.getElementById("ui-tab-time").textContent = t.tabTime;
+    document.getElementById("ui-tab-quiz").textContent = t.tabQuiz;
+    document.getElementById("ui-tab-stamps").textContent = t.tabStamps;
+    
+    document.getElementById("ui-booth-title").innerHTML = `<i class="fa-solid fa-ticket"></i> ${t.boothTitle}`;
+    document.getElementById("ui-label-from").textContent = t.labelFrom;
+    document.getElementById("ui-label-to").textContent = t.labelTo;
+    document.getElementById("ui-label-class").textContent = t.labelClass;
+    document.getElementById("ui-label-passengers").textContent = t.labelPassengers;
+    document.getElementById("ui-label-dep-time").textContent = t.labelDepTime;
+    
+    document.getElementById("ui-info-direction").textContent = t.infoDirection;
+    document.getElementById("ui-info-duration").textContent = t.infoDuration;
+    document.getElementById("ui-info-cost").textContent = t.infoCost;
+    document.getElementById("ui-info-platform").textContent = t.infoPlatform;
+    
+    document.getElementById("ui-btn-play-journey").textContent = t.btnPlayJourney;
+    document.getElementById("ui-map-title").innerHTML = `<i class="fa-solid fa-compass"></i> ${t.mapTitle}`;
+    
+    document.getElementById("ui-vocab-title").innerHTML = `<i class="fa-solid fa-book-open"></i> ${t.vocabTitle}`;
+    
+    document.getElementById("ui-clock-title").innerHTML = `<i class="fa-solid fa-circle-notch"></i> ${t.clockTitle}`;
+    document.getElementById("ui-time-learn-title").innerHTML = `<i class="fa-solid fa-graduation-cap"></i> ${t.timeLearnTitle}`;
+    document.getElementById("ui-label-adjust-time").textContent = t.labelAdjustTime;
+    document.getElementById("ui-label-preset-time").textContent = t.labelPresetTime;
+    document.getElementById("ui-btn-play-clock").textContent = t.btnPlayClock;
+    
+    document.getElementById("ui-quiz-title").innerHTML = `<i class="fa-solid fa-gamepad"></i> ${t.quizTitle}`;
+    document.getElementById("ui-quiz-welcome-title").textContent = t.quizWelcomeTitle;
+    document.getElementById("ui-quiz-welcome-desc").textContent = t.quizWelcomeDesc;
+    document.getElementById("ui-quiz-seller-name").textContent = t.quizSellerName;
+    document.getElementById("ui-quiz-time-name").textContent = t.quizTimeName;
+    document.getElementById("ui-btn-retry").textContent = t.btnRetry;
+    
+    document.getElementById("ui-stamps-title").innerHTML = `<i class="fa-solid fa-stamp"></i> ${t.stampsTitle}`;
+    document.getElementById("ui-stamps-desc").textContent = t.stampsDesc;
+}
+
+// 動態綁定所有點擊與選單變更事件，以繞過 Blogger、WordPress 等安全過濾器
+function bindDynamicEvents() {
+    const bindClick = (id, callback) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener("click", callback);
+            el.removeAttribute("onclick");
+        }
+    };
+    const bindChange = (id, callback) => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener("change", callback);
+            el.removeAttribute("onchange");
+        }
+    };
+
+    // 頂部控制列
+    bindClick("theme-toggle-btn", toggleTheme);
+    bindClick("lang-toggle-btn", toggleLanguage);
+
+    // 主分頁頁籤
+    bindClick("tab-adventure-btn", () => switchTab('adventure'));
+    bindClick("tab-vocab-btn", () => switchTab('vocab'));
+    bindClick("tab-time-btn", () => switchTab('time'));
+    bindClick("tab-quiz-btn", () => switchTab('quiz'));
+    bindClick("tab-stamps-btn", () => switchTab('stamps'));
+
+    // 售票亭起訖站與下拉選單
+    bindChange("start-station", calculateJourney);
+    bindChange("end-station", calculateJourney);
+    bindChange("train-class", calculateJourney);
+    bindChange("departure-time", calculateJourney);
+    bindClick("btn-dec-passengers", () => changePassengers(-1));
+    bindClick("btn-inc-passengers", () => changePassengers(1));
+    bindClick("play-journey-btn", playJourney);
+
+    // 詞彙學堂篩選按鈕
+    bindClick("btn-filter-all", () => filterVocab('all'));
+    bindClick("btn-filter-vehicles", () => filterVocab('vehicle'));
+    bindClick("btn-filter-stations", () => filterVocab('station'));
+
+    // 時間微調按鈕
+    bindClick("btn-clock-dec-1h", () => adjustClockTime(-60));
+    bindClick("btn-clock-dec-15m", () => adjustClockTime(-15));
+    bindClick("btn-clock-inc-15m", () => adjustClockTime(15));
+    bindClick("btn-clock-inc-1h", () => adjustClockTime(60));
+
+    // 時間快捷預設按鈕
+    bindClick("btn-clock-preset-8-0", () => setClockTime(8, 0));
+    bindClick("btn-clock-preset-10-30", () => setClockTime(10, 30));
+    bindClick("btn-clock-preset-12-15", () => setClockTime(12, 15));
+    bindClick("btn-clock-preset-15-30", () => setClockTime(15, 30));
+    bindClick("btn-clock-preset-17-45", () => setClockTime(17, 45));
+    bindClick("btn-clock-preset-20-0", () => setClockTime(20, 0));
+
+    // 播放時間語音按鈕
+    bindClick("play-clock-btn", playClockAudio);
+
+    // 檢定挑戰按鈕
+    bindClick("btn-quiz-seller", () => startQuiz('seller'));
+    bindClick("btn-quiz-time", () => startQuiz('time'));
+    bindClick("quiz-audio-play-btn", playQuizQuestionAudio);
+    bindClick("quiz-retry-btn", resetQuizInterface);
+}
+
+
+</script>
+</body>
+</html>

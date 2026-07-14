@@ -9,16 +9,21 @@ Designed and engineered for **@史秀里冊房 Tō͘ Sìn-liông 製作 2026**.
 ## 🌟 Key Features
 
 1. **Multi-Syllable Interactive Builder**: 
-   - Supports **2-Syllable (二字組)**, **3-Syllable (三字組)**, and **4-Syllable (四字組)** configurations.
+   - Supports **1-Syllable (一字組)**, **2-Syllable (二字組)**, **3-Syllable (三字組)**, and **4-Syllable (四字組)** configurations.
+   - In **1-Syllable Mode (一字組)**, the word does not change tone and retains its base tone (本調).
    - Dynamically selects Initials (18 standard), Rhymes (categorized into Vowels, Diphthongs, Nasalized, Nasals, Syllabic, and Entering Stop Codas), and Tones (T1, T2, T3, T4, T5, T7, T8) for each syllable card.
    - Dynamic tone filtering: Selecting a stop-coda rhyme (`-p`, `-t`, `-k`, `-h`) filters available tones to entering tones 4 & 8; other rhymes filter to standard tones 1, 2, 3, 5, 7.
 
-2. **Bidirectional Quick Type Input (快速輸入)**:
+2. **Slot Machine Randomizer (隨機組合)**:
+   - Click the **Random (隨機組合)** button to spin through random initials, rhymes, and tones for all active syllables with a smooth slot-machine animation.
+   - Automatically plays the audio sequence of the randomized phrase once the spin finishes.
+
+3. **Bidirectional Quick Type Input (快速輸入)**:
    - Type any syllable in numeric Romanization (e.g. `goa2`, `tsit8`) or with diacritic marks directly (e.g. `góa`, `tsi̍t`) in any active syllable text box.
    - The parser splits the string into Initial, Rhyme, and Tone, updates the dropdown selections, and computes the sandhi flow in real-time.
    - Updates the text box automatically when selections change, with focus checks to avoid input loops or cursor jumps.
 
-3. **Linguistic Tone Sandhi Engine**:
+4. **Linguistic Tone Sandhi Engine**:
    - Computes standard sandhi rules: `1 ➔ 7`, `2 ➔ 1`, `3 ➔ 2`, `5 ➔ 7`, `7 ➔ 3`.
    - Computes entering stop codas: `4` (ending in `-p`, `-t`, `-k`) ➔ `8`; `8` (ending in `-p`, `-t`, `-k`) ➔ `4`.
    - Computes glottal stop codas: `4` (ending in `-h`) ➔ drops `-h` and becomes Tone `2`; `8` (ending in `-h`) ➔ drops `-h` and becomes Tone `3`.
@@ -27,20 +32,20 @@ Designed and engineered for **@史秀里冊房 Tō͘ Sìn-liông 製作 2026**.
      - **4-Syllable Sequential**: Word 1 (sandhi), Word 2 (sandhi), Word 3 (sandhi), Word 4 (base).
      - **4-Syllable 2+2 Split (兩兩變調)**: Word 1 (sandhi) + Word 2 (base); Word 3 (sandhi) + Word 4 (base) - designed for compound word training (e.g., `Tâi-oân Tāi-ha̍k`).
 
-4. **Neutral Tone (輕聲 --) Support**:
+5. **Neutral Tone (輕聲 --) Support**:
    - Type `--` at the beginning of the last syllable (e.g., `--khì` or `--khi3`) or check the "Neutral Tone" box.
    - Computes the neutral tone rule: The preceding syllable retains its **base tone** (no sandhi) and the last word is marked with a double hyphen prefix `--` and spoken softly. All preceding syllables before that undergo standard sandhi normally.
 
-5. **Pure Authentic Audio Engine (No Mandarin Fallback)**:
+6. **Pure Authentic Audio Engine (No Mandarin Fallback)**:
    - Contains an embedded database of **1,855 unique syllables** mapped to Ministry of Education voice recordings.
    - Performs sequential queue playback for all active syllables (sandhi tone or base/neutral tone) back-to-back.
    - Multi-stage tone fallback search: if the exact sandhi tone recording is missing, it falls back to the base tone, and then to other available tones for that syllable, guaranteeing native speaker voice output instead of Mandarin TTS.
    - Soft/Short audio modifier: If any syllable is a neutral tone, its playback volume is lowered to `0.55` and speed increased to `1.25x` to simulate a real neutral tone mouthfeel.
 
-6. **Chao Tone Pitch Grid (聲調五度譜格)**:
+7. **Chao Tone Pitch Grid (聲調五度譜格)**:
    - Features SVG grid cards representing the pitch contour of the 7 tones using Chao's 5-level pitch system (五度標音法) from level 1 (lowest) to level 5 (highest).
 
-7. **Blogger Embed Ready**:
+8. **Blogger Embed Ready**:
    - Generates a wrapped base64 HTML file that can be pasted directly into Blogger's HTML view without encountering script blocks or cross-origin restrictions.
 
 ---
@@ -93,15 +98,13 @@ When three identical syllables are inputted in 3-Syllable Mode (e.g. `âng-âng-
 
 ## 🛠️ Build and Compilation
 
-The project uses a Node.js-based build system to compile the final files, injecting the syllable audio mappings directly into the page code template.
+The project includes a build script to compile the main HTML file into the escaped Blogger embed version:
 
-- `scratch/build_html.js` - Compiles the main HTML tool.
-- `scratch/generate_blogger_embed.js` - Escapes the compiled HTML code and packages it inside the Blogger iframe container.
+- `build.js` - Escapes the compiled HTML code and packages it inside the Blogger iframe container (`blogger_embed.html`).
 
 To compile changes:
 ```bash
-node scratch/build_html.js
-node scratch/generate_blogger_embed.js
+node build.js
 ```
 
 ## ⚠️ Known Issues / Limitations (已知問題與限制)

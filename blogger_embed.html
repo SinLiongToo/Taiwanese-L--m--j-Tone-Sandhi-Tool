@@ -697,6 +697,7 @@
                 &lt;div class=&quot;mode-selector-container&quot; style=&quot;margin-bottom: 20px; display: flex; align-items: center; gap: 12px; justify-content: center; flex-wrap: wrap;&quot;&gt;
                     &lt;span style=&quot;font-weight: 700; font-size: 14px; color: var(--text-secondary);&quot;&gt;選擇模式 (Mode):&lt;/span&gt;
                     &lt;div class=&quot;mode-buttons&quot; style=&quot;display: flex; gap: 8px;&quot;&gt;
+                        &lt;button class=&quot;mode-btn&quot; onclick=&quot;setWordCount(1)&quot; id=&quot;mode-btn-1&quot;&gt;一字組 (1-Syllable)&lt;/button&gt;
                         &lt;button class=&quot;mode-btn active&quot; onclick=&quot;setWordCount(2)&quot; id=&quot;mode-btn-2&quot;&gt;二字組 (2-Syllable)&lt;/button&gt;
                         &lt;button class=&quot;mode-btn&quot; onclick=&quot;setWordCount(3)&quot; id=&quot;mode-btn-3&quot;&gt;三字組 (3-Syllable)&lt;/button&gt;
                         &lt;button class=&quot;mode-btn&quot; onclick=&quot;setWordCount(4)&quot; id=&quot;mode-btn-4&quot;&gt;四字組 (4-Syllable)&lt;/button&gt;
@@ -715,7 +716,7 @@
                 &lt;div class=&quot;grid-layout cols-2&quot;&gt;
                     &lt;!-- Word 1 (Syllable 1 Builder) --&gt;
                     &lt;div class=&quot;card-selector&quot; id=&quot;card-1&quot;&gt;
-                        &lt;h3&gt;Syllable 1 (Changes Tone)&lt;/h3&gt;
+                        &lt;h3 id=&quot;card-title-1&quot;&gt;Syllable 1 (Changes Tone)&lt;/h3&gt;
                         
                         &lt;!-- Quick Input Textbox --&gt;
                         &lt;div class=&quot;control-group&quot;&gt;
@@ -1088,9 +1089,14 @@
                             &lt;span class=&quot;speed-value&quot; id=&quot;speed-value&quot;&gt;0.8x&lt;/span&gt;
                         &lt;/div&gt;
                     &lt;/div&gt;
-                    &lt;button class=&quot;btn-action&quot; onclick=&quot;triggerSpeech()&quot;&gt;
-                        &lt;span&gt;🔊 Play Pronunciation (唸唸看)&lt;/span&gt;
-                    &lt;/button&gt;
+                    &lt;div style=&quot;display: flex; gap: 12px; flex-wrap: wrap; width: 100%;&quot;&gt;
+                        &lt;button class=&quot;btn-action&quot; onclick=&quot;triggerSpeech()&quot; style=&quot;flex: 2; min-width: 200px;&quot;&gt;
+                            &lt;span&gt;🔊 Play Pronunciation (唸唸看)&lt;/span&gt;
+                        &lt;/button&gt;
+                        &lt;button class=&quot;btn-action&quot; onclick=&quot;triggerSlotMachine()&quot; style=&quot;flex: 1; min-width: 150px; background: linear-gradient(135deg, #ec4899 0%, #f43f5e 100%); box-shadow: 0 4px 15px rgba(244, 63, 94, 0.25);&quot;&gt;
+                            &lt;span&gt;🎰 Random (隨機組合)&lt;/span&gt;
+                        &lt;/button&gt;
+                    &lt;/div&gt;
                 &lt;/div&gt;
 
                 &lt;div class=&quot;output-panel&quot;&gt;
@@ -1757,12 +1763,19 @@
             if (activeBtn) activeBtn.classList.add(&#39;active&#39;);
             
             // Show/hide cards
+            document.getElementById(&#39;card-2&#39;).style.display = count &gt;= 2 ? &#39;block&#39; : &#39;none&#39;;
             document.getElementById(&#39;card-3&#39;).style.display = count &gt;= 3 ? &#39;block&#39; : &#39;none&#39;;
             document.getElementById(&#39;card-4&#39;).style.display = count &gt;= 4 ? &#39;block&#39; : &#39;none&#39;;
             
+            // Update Card 1 Title dynamically
+            const title1 = document.getElementById(&#39;card-title-1&#39;);
+            if (title1) {
+                title1.innerText = count === 1 ? &#39;Syllable 1 (Holds Base Tone)&#39; : &#39;Syllable 1 (Changes Tone)&#39;;
+            }
+            
             // Update grid columns class
             const gridLayout = document.querySelector(&#39;.grid-layout&#39;);
-            gridLayout.classList.remove(&#39;cols-2&#39;, &#39;cols-3&#39;, &#39;cols-4&#39;);
+            gridLayout.classList.remove(&#39;cols-1&#39;, &#39;cols-2&#39;, &#39;cols-3&#39;, &#39;cols-4&#39;);
             gridLayout.classList.add(`cols-${count}`);
             
             // Show/hide structure selector for 4-syllable mode
@@ -1872,6 +1885,11 @@
                     changed: false,
                     ruleDesc: &quot;Retains base tone (本調)&quot;
                 });
+            }
+            
+            if (N === 1) {
+                results[0].ruleDesc = &quot;單字組不變調，保持本調&quot;;
+                return results;
             }
             
             const lastWord = words[N - 1];
@@ -2062,7 +2080,12 @@
                 words[1].init === words[2].init &amp;&amp; words[1].rhyme === words[2].rhyme &amp;&amp; words[1].tone === words[2].tone &amp;&amp;
                 !words[0].isNeutral &amp;&amp; !words[1].isNeutral &amp;&amp; !words[2].isNeutral);
             
-            if (activeWordCount === 4 &amp;&amp; fourSyllableStructure === &#39;split&#39;) {
+            if (activeWordCount === 1) {
+                expHtml += `&lt;strong&gt;單字組讀音 (Single Syllable):&lt;/strong&gt;&lt;br&gt;`;
+                expHtml += `單一字組在台語中不變調，維持原來的&lt;strong&gt;本調 (Base Tone)&lt;/strong&gt;。&lt;br&gt;`;
+                const spelling = applyToneMark(words[0].init, words[0].rhyme, words[0].tone);
+                expHtml += `讀音: &lt;strong&gt;${spelling}&lt;/strong&gt;`;
+            } else if (activeWordCount === 4 &amp;&amp; fourSyllableStructure === &#39;split&#39;) {
                 expHtml += `&lt;strong&gt;四字兩兩變調結構 (2+2 Split Structure):&lt;/strong&gt;&lt;br&gt;`;
                 const s1Base = applyToneMark(words[0].init, words[0].rhyme, words[0].tone);
                 const s1Sandhi = applyToneMark(finalWords[0].init, finalWords[0].rhyme, finalWords[0].tone);
@@ -2315,6 +2338,66 @@
                 badge.innerText = &quot;⚠️ All syllables audio missing&quot;;
                 badge.classList.add(&#39;fallback&#39;);
             }
+        }
+
+        // Slot Machine (隨機組合) implementation
+        let slotMachineInterval = null;
+        function triggerSlotMachine() {
+            if (slotMachineInterval) return; // Prevent double clicks during spin
+            
+            const playBtn = document.querySelector(&#39;.btn-action[onclick=&quot;triggerSpeech()&quot;]&#39;);
+            const slotBtn = document.querySelector(&#39;.btn-action[onclick=&quot;triggerSlotMachine()&quot;]&#39;);
+            if (playBtn) playBtn.disabled = true;
+            if (slotBtn) slotBtn.disabled = true;
+            
+            let spins = 0;
+            const maxSpins = 12;
+            const intervalMs = 70;
+            
+            slotMachineInterval = setInterval(() =&gt; {
+                // For each active card, randomize options
+                for (let i = 1; i &lt;= activeWordCount; i++) {
+                    const initSelect = document.getElementById(`init${i}`);
+                    const rhymeSelect = document.getElementById(`rhyme${i}`);
+                    const toneSelect = document.getElementById(`tone${i}`);
+                    
+                    if (initSelect &amp;&amp; initSelect.options.length &gt; 0) {
+                        const r = Math.floor(Math.random() * initSelect.options.length);
+                        initSelect.value = initSelect.options[r].value;
+                    }
+                    if (rhymeSelect &amp;&amp; rhymeSelect.options.length &gt; 0) {
+                        const r = Math.floor(Math.random() * rhymeSelect.options.length);
+                        rhymeSelect.value = rhymeSelect.options[r].value;
+                    }
+                    
+                    // Update tones based on new rhyme
+                    updateToneDropdown(i);
+                    
+                    if (toneSelect &amp;&amp; toneSelect.options.length &gt; 0) {
+                        const r = Math.floor(Math.random() * toneSelect.options.length);
+                        toneSelect.value = toneSelect.options[r].value;
+                    }
+                    
+                    // Reset neutral checkbox to false if randomizing
+                    const neutralBox = document.getElementById(`neutral${i}`);
+                    if (neutralBox) {
+                        neutralBox.checked = false;
+                    }
+                }
+                
+                calculateSandhi();
+                spins++;
+                
+                if (spins &gt;= maxSpins) {
+                    clearInterval(slotMachineInterval);
+                    slotMachineInterval = null;
+                    if (playBtn) playBtn.disabled = false;
+                    if (slotBtn) slotBtn.disabled = false;
+                    
+                    // Auto play sound on stop
+                    triggerSpeech();
+                }
+            }, intervalMs);
         }
 
         // Tab Switcher

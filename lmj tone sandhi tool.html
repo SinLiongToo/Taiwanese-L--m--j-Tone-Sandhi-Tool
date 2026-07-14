@@ -1650,22 +1650,22 @@
             
             // 1. Try exact target tone (sandhi tone)
             let key = base + targetTone;
-            if (syllableAudioMap[key]) return { id: syllableAudioMap[key], matchType: 'target' };
+            if (syllableAudioMap[key]) return { id: syllableAudioMap[key], matchType: 'target', playedTone: targetTone };
             
             // 2. Try the base tone of the syllable
             if (baseTone) {
                 key = base + baseTone;
-                if (syllableAudioMap[key]) return { id: syllableAudioMap[key], matchType: 'base_fallback' };
+                if (syllableAudioMap[key]) return { id: syllableAudioMap[key], matchType: 'base_fallback', playedTone: baseTone };
             }
             
             // 3. Try any other tone (1, 2, 3, 5, 7, 8, 4)
             const fallbackTones = [1, 2, 3, 5, 7, 8, 4];
             for (let t of fallbackTones) {
                 key = base + t;
-                if (syllableAudioMap[key]) return { id: syllableAudioMap[key], matchType: 'any_fallback' };
+                if (syllableAudioMap[key]) return { id: syllableAudioMap[key], matchType: 'any_fallback', playedTone: t };
             }
             
-            return { id: null, matchType: 'none' };
+            return { id: null, matchType: 'none', playedTone: null };
         }
 
         // Parse user-typed Lô-má-jī syllable
@@ -2168,10 +2168,20 @@
             let fallbackNotes = [];
             for (let i = 0; i < activeWordCount; i++) {
                 const audioObj = getAudioId(finalWords[i].init, finalWords[i].rhyme, finalWords[i].tone, words[i].tone);
-                if (audioObj.id && (audioObj.matchType === 'base_fallback' || audioObj.matchType === 'any_fallback')) {
+                if (audioObj.id) {
                     const spelling = applyToneMark(finalWords[i].init, finalWords[i].rhyme, finalWords[i].tone);
                     const baseSpelling = applyToneMark(words[i].init, words[i].rhyme, words[i].tone);
-                    fallbackNotes.push(`第 ${i+1} 字「${baseSpelling}」變調為 <strong>${spelling} (T${finalWords[i].tone})</strong>，但教育部語音庫中無此變調單音檔，將以降級本調 <strong>${baseSpelling} (T${words[i].tone})</strong> 播放。`);
+                    
+                    if (audioObj.matchType === 'base_fallback') {
+                        fallbackNotes.push(`第 ${i+1} 字「${baseSpelling}」變調應為 <strong>${spelling} (T${finalWords[i].tone})</strong>，但語音庫中無此變調音檔，將以降級本調 <strong>${baseSpelling} (T${words[i].tone})</strong> 播放。`);
+                    } else if (audioObj.matchType === 'any_fallback') {
+                        const playedSpelling = applyToneMark(finalWords[i].init, finalWords[i].rhyme, audioObj.playedTone);
+                        if (finalWords[i].changed) {
+                            fallbackNotes.push(`第 ${i+1} 字「${baseSpelling}」變調應為 <strong>${spelling} (T${finalWords[i].tone})</strong>，且無本調音檔，將以 <strong>${playedSpelling} (T${audioObj.playedTone})</strong> 代替播放。`);
+                        } else {
+                            fallbackNotes.push(`第 ${i+1} 字「${baseSpelling}」本調 <strong>(T${words[i].tone})</strong> 無音檔，將以 <strong>${playedSpelling} (T${audioObj.playedTone})</strong> 代替播放。`);
+                        }
+                    }
                 }
             }
             
@@ -2194,14 +2204,17 @@
             
             let missingCount = 0;
             let availableCount = 0;
-            let hasFallback = false;
+            let hasBaseFallback = false;
+            let hasAnyFallback = false;
             
             for (let i = 0; i < activeWordCount; i++) {
                 const audioObj = getAudioId(finalWords[i].init, finalWords[i].rhyme, finalWords[i].tone, words[i].tone);
                 if (audioObj.id) {
                     availableCount++;
-                    if (audioObj.matchType !== 'target') {
-                        hasFallback = true;
+                    if (audioObj.matchType === 'base_fallback') {
+                        hasBaseFallback = true;
+                    } else if (audioObj.matchType === 'any_fallback') {
+                        hasAnyFallback = true;
                     }
                 } else {
                     missingCount++;
@@ -2209,7 +2222,9 @@
             }
             
             if (missingCount === 0) {
-                if (hasFallback) {
+                if (hasAnyFallback) {
+                    badge.innerText = "🔊 MoE Audio (部份音節使用相似聲調)";
+                } else if (hasBaseFallback) {
                     badge.innerText = "🔊 MoE Audio (部份音節使用本調)";
                 } else {
                     badge.innerText = "🔊 MoE Audio (教育部真人口音)";
@@ -2303,15 +2318,18 @@
             
             const audioIds = [];
             const missingInfo = [];
-            let hasFallback = false;
+            let hasBaseFallback = false;
+            let hasAnyFallback = false;
             
             for (let i = 0; i < activeWordCount; i++) {
                 const audioObj = getAudioId(finalWords[i].init, finalWords[i].rhyme, finalWords[i].tone, words[i].tone);
                 const spelling = applyToneMark(finalWords[i].init, finalWords[i].rhyme, finalWords[i].tone);
                 if (audioObj.id) {
                     audioIds.push(audioObj.id);
-                    if (audioObj.matchType !== 'target') {
-                        hasFallback = true;
+                    if (audioObj.matchType === 'base_fallback') {
+                        hasBaseFallback = true;
+                    } else if (audioObj.matchType === 'any_fallback') {
+                        hasAnyFallback = true;
                     }
                 } else {
                     audioIds.push(null);
@@ -2322,7 +2340,9 @@
             const badge = document.getElementById('speech-engine-badge');
             
             if (missingInfo.length === 0) {
-                if (hasFallback) {
+                if (hasAnyFallback) {
+                    badge.innerText = "🔊 Playing MoE Audio (部份音節使用相似聲調)";
+                } else if (hasBaseFallback) {
                     badge.innerText = "🔊 Playing MoE Audio (部份音節使用本調)";
                 } else {
                     badge.innerText = "🔊 Playing MoE Audio (教育部真人口音)";

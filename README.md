@@ -52,7 +52,7 @@ Designed and engineered for **@史秀里冊房 Tō͘ Sìn-liông 製作 2026**.
 
 ## 📂 File Directory
 
-- `lmj tone sandhi tool.html` - The main, self-contained offline application. Open in any modern web browser.
+- `index.html` - The main, self-contained offline application. Open in any modern web browser.
 - `blogger_embed.html` - HTML code block containing the main application nested within an escaped `iframe srcdoc` wrapper. Copy-paste this entire file's content into Google Blogger to embed.
 
 ---

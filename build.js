@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const srcPath = path.join(__dirname, 'lmj tone sandhi tool.html');
+const srcPath = path.join(__dirname, 'index.html');
 const destPath = path.join(__dirname, 'blogger_embed.html');
 
 try {

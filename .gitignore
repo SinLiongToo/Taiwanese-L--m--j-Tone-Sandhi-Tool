@@ -30,3 +30,6 @@ Thumbs.db
 *.njsproj
 *.sln
 *.swp
+
+# Project reference files
+REF台灣鐵路四界行/
